@@ -1,0 +1,49 @@
+.space {
+  justify-content: space-between;
+}
+.border {
+  border-left-width: 1px;
+  border-right-width: 1px;
+}
+.menu-container {
+  padding: 0.75rem;
+}
+.menu-item-container {
+  padding: 0.75rem;
+  flex: auto;
+}
+.nav-button {
+  padding: 1.3em 2em;
+  margin: 0em 2.5em;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  border: none;
+  transition: all 0.5s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.nav-button:hover {
+  box-shadow: 0px 8px 20px rgb(0, 0, 0);
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+.nav-button:active {
+  transform: translateY(-20px);
+}
+button {
+  padding: 1.3em 2em;
+  margin: 0em 2.5em;
+  font-size: 15px;
+  border: none;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+button:active {
+  transform: translateY(-20px);
+}

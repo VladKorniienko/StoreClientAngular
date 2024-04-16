@@ -1,0 +1,25 @@
+<mat-toolbar color="primary" class="mx-auto border space">
+  <div>
+    <a mat-button class="nav-button" routerLink="/home">
+      <mat-icon>home</mat-icon>StoreApplication</a
+    >
+    <a
+      mat-button
+      class="nav-button"
+      *ngIf="this.authService.isLoggedIn"
+      routerLink="/users/{{ currentUser }}"
+      ><mat-icon>person</mat-icon>Profile</a
+    >
+    <a mat-button class="nav-button" *ngIf="this.authService.isLoggedIn"
+      ><mat-icon>apps</mat-icon>Library</a
+    >
+  </div>
+  <button
+    (click)="logout()"
+    *ngIf="this.authService.isLoggedIn"
+    mat-icon-button
+    matTooltip="Logout"
+  >
+    <mat-icon>exit_to_app</mat-icon>
+  </button>
+</mat-toolbar>

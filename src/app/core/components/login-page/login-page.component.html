@@ -1,0 +1,76 @@
+<!--
+  <div class="form-signin w-100 m-auto">
+  <form [formGroup]="signInForm" (ngSubmit)="logIn()">
+    <h3 class="h3 mb-3 font-weight-normal text-center">Please sign in</h3>
+    <div class="mb-3">
+      <label>Username</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="userName"
+        placeholder="Enter username"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label>Password</label>
+      <input
+        type="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Password"
+      />
+    </div>
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </div>
+  </form>
+</div>
+-->
+<mat-card>
+  <mat-card-title class="center-text">LOGIN</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="signInForm">
+      <p>
+        <mat-form-field class="login-form-child" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required />
+          <mat-error>Please enter a valid email</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="login-form-child" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            required
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error>Please enter a valid password</mat-error>
+        </mat-form-field>
+      </p>
+    </form>
+  </mat-card-content>
+  <a routerLink="/signup">New user? Register here</a>
+  <mat-card-actions>
+    <button
+      class="login-form-child button"
+      mat-raised-button
+      (click)="logIn()"
+      color="primary"
+      [disabled]="!signInForm.valid"
+    >
+      Sign in
+    </button>
+  </mat-card-actions>
+</mat-card>

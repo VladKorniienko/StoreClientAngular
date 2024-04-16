@@ -1,0 +1,25 @@
+.example-header-image {
+  background-size: cover;
+  box-shadow: 0px 0px 10px 5px rgb(71, 71, 177);
+}
+
+mat-card {
+  width: 300px;
+  transition: all 0.5s ease 0s;
+  box-shadow: 0px 0px 30px 5px rgb(71, 71, 177);
+}
+mat-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  margin: 5px;
+}
+.info-button {
+  background-color: lightgray;
+}

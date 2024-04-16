@@ -1,0 +1,26 @@
+<h1 mat-dialog-title class="title">{{ data.name }}</h1>
+<mat-dialog-content class="mat-typography">
+  <mat-list>
+    <mat-list-item>
+      <span matListItemTitle class="header-list">Price</span>
+      <span matListItemLine>{{ data.priceUSD }}</span>
+    </mat-list-item>
+    <mat-list-item>
+      <span matListItemTitle class="header-list">Category</span>
+      <span>{{ data.category }}</span>
+    </mat-list-item>
+    <mat-list-item>
+      <span matListItemTitle class="header-list">Genre</span>
+      <span>{{ data.genre }}</span>
+    </mat-list-item>
+    <mat-list-item>
+      <span matListItemTitle class="header-list">Description</span>
+      <span>{{ data.description }}</span>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-dialog-actions>

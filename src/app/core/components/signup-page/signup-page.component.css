@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+.center-text {
+  padding: 20px;
+  text-align: center;
+}
+.signUp-form-child {
+  width: 100%;
+}
+a {
+  text-decoration: none;
+  color: blueviolet;
+  font-size: smaller;
+  text-align: center;
+}
+mat-card {
+  margin-top: 20px;
+  box-shadow: 0px 0px 40px 10px rgb(71, 71, 177);
+}
