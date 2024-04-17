@@ -10,27 +10,28 @@ import {
 import { Router } from '@angular/router';
 import { User } from '@shared/models/User/user';
 import { SignInResponse } from '@shared/models/Auth/signInResponse';
+import { API_ENDPOINTS } from '@shared/config/api-endpoints';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  endpoint: string = 'https://localhost:7084/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient, public router: Router) {}
 
   // Sign-up
-  signUp(user: User): Observable<any> {
-    let api = `${this.endpoint}`;
-    return this.http.post(api, user).pipe(catchError(this.errorHandler));
+  register(user: User): Observable<User> {
+    return this.http
+    .post<User>(API_ENDPOINTS.register, user)
+    .pipe(catchError(this.errorHandler));
   }
 
   // Sign-in
   signIn(user: User) {
     return this.http
-      .post<SignInResponse>(`${this.endpoint}/Account/login`, user)
+      .post<SignInResponse>(API_ENDPOINTS.login, user)
       .subscribe((res: SignInResponse) => {
-        localStorage.setItem('id', res.id);
+        localStorage.setItem('authenticatedUserId', res.id);
         localStorage.setItem('token', res.token);
         localStorage.setItem('refreshToken', res.refreshToken)
         this.router.navigate(['users/' + res.id]);
@@ -50,12 +51,9 @@ export class AuthService {
     }
   }
   // User profile
-  getUserProfile(id: string): Observable<any> {
+  getUserProfile(id: string): Observable<User> {
     let api = `${this.endpoint}/Users/${id}`;
-    return this.http.get(api, { headers: this.headers }).pipe(
-      map((res) => {
-        return res;
-      }),
+    return this.http.get<User>(api, { headers: this.headers }).pipe(
       catchError(this.errorHandler)
     );
   }
@@ -65,7 +63,7 @@ export class AuthService {
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
     } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code: ${error.Code}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
   }

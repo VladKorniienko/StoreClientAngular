@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@shared/models/User/user';
-import { AuthService } from '@shared/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
