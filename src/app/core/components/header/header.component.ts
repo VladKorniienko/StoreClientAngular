@@ -15,6 +15,6 @@ export class HeaderComponent {
     console.log(this.currentUser);
   }
   logout() {
-    this.authService.doLogout();
+    this.authService.logout();
   }
 }

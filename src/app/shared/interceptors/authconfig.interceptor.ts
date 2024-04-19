@@ -1,26 +1,25 @@
+
 import { Injectable } from "@angular/core";
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from "@angular/common/http";
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from "@angular/common/http";
 import { AuthService } from "../../core/services/auth.service";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError } from "rxjs";
 @Injectable()
 
 export class AuthInterceptor implements HttpInterceptor {
 
-    private isRefreshing = false;
-    private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor(private authService: AuthService) { }
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (this.authService.getAccessToken()) {
-            request = this.addToken(request, this.authService.getAccessToken());
-          }
-          
-        const authToken = this.authService.getToken();
-        req = req.clone({
-            setHeaders: {
-                Authorization: "Bearer " + authToken
-            }
-        });
-        return next.handle(req);
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // No need to add the token to the headers, as it's already in an HttpOnly cookie
+        return next.handle(request).pipe(
+            catchError(error => {
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    // Handle the 401 error by refreshing the token
+                    return this.authService.refreshToken();
+                } else {
+                    return throwError(error);
+                }
+            })
+        );
     }
 }

@@ -9,20 +9,19 @@ import { AuthService } from 'src/app/core/services/auth.service';
   templateUrl: './signup-page.component.html',
   styleUrls: ['./signup-page.component.css']
 })
-export class SignupPageComponent  implements OnInit{
-public signUpForm !: FormGroup
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) 
-  { 
+export class SignupPageComponent implements OnInit {
+  public signUpForm !: FormGroup
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.signUpForm = this.formBuilder.group({
       userName: [''],
       password: [''],
       email: ['']
     })
   }
-  ngOnInit() {}
-  
+  ngOnInit() { }
+
   signUp() {
-    this.authService.signUp(this.signUpForm.value).subscribe((res) => {
+    this.authService.register(this.signUpForm.value).subscribe((res) => {
       //if (res.result) {
       //}
       this.signUpForm.reset();

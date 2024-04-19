@@ -13,7 +13,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 
 export class AuthGuard {
-  constructor(public authService: AuthService, public router: Router) {}
+  constructor(public authService: AuthService, public router: Router) { }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

@@ -10,6 +10,6 @@ export class AppComponent {
   title = 'StoreAppProject';
   constructor(public authService: AuthService) { }
   logout() {
-    this.authService.doLogout()
-}
+    this.authService.logout()
+  }
 }
