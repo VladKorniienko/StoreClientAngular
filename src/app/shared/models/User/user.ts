@@ -4,6 +4,5 @@ export class User {
     public userName: string = '',
     public email: string = '',
     public role: string = '',
-    public balance: number = 0  ) {}
-  
+    public balance: number = 0) { }
 }

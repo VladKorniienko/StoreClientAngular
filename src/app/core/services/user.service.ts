@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { API_ENDPOINTS } from '@shared/config/api-endpoints';
+import { API_ENDPOINTS } from '@shared/constants/api-endpoints';
 import { User } from '@shared/models/User/user';
 import { Observable, catchError, throwError } from 'rxjs';
 

@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class ProductsService {
   endpoint: string = 'https://localhost:7218/api/Products';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  constructor(private http: HttpClient, public router: Router) {}
+  constructor(private http: HttpClient, public router: Router) { }
 
   // Get all Products
   getProducts(): Observable<any> {
