@@ -22,19 +22,21 @@
   <mat-grid-tile *ngFor="let data of dataToDisplay">
     <mat-card>
       <mat-card-header>
-        <!--
-          <div
+        <div
           mat-card-avatar
           class="example-header-image"
-          [ngStyle]="{ 'background-image': 'url(' + data.imagePath + ')' }"
+          [style.background-image]="
+            'url(data:image/jpeg;base64,' + data.icon + ')'
+          "
         ></div>
-        -->
         <mat-card-title>{{ data.name }}</mat-card-title>
-        <mat-card-subtitle>{{ data.category }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ data.categoryName }}</mat-card-subtitle>
       </mat-card-header>
+
       <mat-card-content>
         {{ data.priceUSD }}
       </mat-card-content>
+
       <mat-card-actions class="card-actions">
         <button mat-icon-button (click)="openInfoDialog(data)">
           <mat-icon>info</mat-icon>

@@ -8,13 +8,12 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  public currentUser: User = new User();
+  public currentUserId: string = '';
 
   constructor(public authService: AuthService) {
-    //this.currentUser = authService;
-    console.log(this.currentUser);
+    this.currentUserId = authService.getUserId() || '';
   }
   logout() {
-    this.authService.logout();
+    this.authService.logout().subscribe();
   }
 }
