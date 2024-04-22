@@ -4,10 +4,10 @@
   <p>{{ data.priceUSD }}</p>
 
   <h3>Category</h3>
-  <p>{{ data.category }}</p>
+  <p>{{ data.categoryName }}</p>
 
   <h3>Genre</h3>
-  <p>{{ data.genre }}</p>
+  <p>{{ data.genreName }}</p>
 
   <h3>Description</h3>
   <p>{{ data.description }}</p>
@@ -15,5 +15,13 @@
 <mat-dialog-actions align="end">
   <button mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
+  </button>
+  <button
+    mat-button
+    (click)="buyProduct()"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+  >
+    Confirm purchase
   </button>
 </mat-dialog-actions>
