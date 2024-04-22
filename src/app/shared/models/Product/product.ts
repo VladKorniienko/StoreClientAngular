@@ -3,11 +3,10 @@ export class Product {
     public id: string,
     public name: string,
     public priceUSD: number,
-    public genre: string,
-    public category: string,
+    public genreName: string,
+    public categoryName: string,
     public description: string,
     public icon: string,
     public screenshots: Array<string>
-  ){}
-  
+  ) {}
 }

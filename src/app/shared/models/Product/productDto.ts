@@ -1,12 +1,13 @@
 export class Product {
   constructor(
-    public name: String,
+    public id: string,
+    public name: string,
     public priceUSD: number,
-    public genre: String,
-    public category: String,
-    public description: String,
-    public iconImage: File
-  )
-   {}
- 
+    public genreId: string,
+    public categoryId: string,
+    public description: string,
+    public icon: string,
+    public screenshots: Array<string>
+  ) { }
+
 }
