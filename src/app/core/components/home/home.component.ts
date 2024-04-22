@@ -18,17 +18,13 @@ export class HomeComponent implements OnInit {
   // public columnsToDisplay = ['name', 'priceUSD', 'category'];
   //public dataSource = new MatTableDataSource<Product>();
   //@ViewChild('paginator') paginator!: MatPaginator;
-  public dataToDisplay = new Array<Product>();
+  public dataToDisplay: Array<Product>;
   constructor(
     public prodService: ProductsService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar
   ) {
-    this.prodService.getProducts().subscribe((res) => {
-      this.dataToDisplay = res;
-      // this.dataSource.data = res;
-      // this.dataSource.paginator = this.paginator;
-    });
+    this.dataToDisplay = new Array<Product>();
   }
   openInfoDialog(product: Product) {
     this.dialog.open(HomeInfoDialogComponent, {
@@ -51,5 +47,11 @@ export class HomeComponent implements OnInit {
       width: '800px',
     });
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.prodService.getProducts().subscribe((res) => {
+      this.dataToDisplay = res;
+      // this.dataSource.data = res;
+      // this.dataSource.paginator = this.paginator;
+    });
+  }
 }
