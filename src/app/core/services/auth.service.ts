@@ -13,6 +13,7 @@ import { SignInResponse } from '@shared/models/Auth/signInResponse';
 import { API_ENDPOINTS } from '@shared/constants/api-endpoints';
 import { UserRegister } from '@shared/models/User/user-register';
 import { UserLogin } from '@shared/models/User/user-login';
+import { PasswordInfo } from '@shared/models/Auth/password-info';
 
 @Injectable({
   providedIn: 'root',
@@ -46,11 +47,9 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
+    localStorage.clear();
+    this.router.navigate(['login']);
     return this.http.post(API_ENDPOINTS.logout, "", { headers: this.headers, withCredentials: true }).pipe(
-      tap(() => {
-        localStorage.clear();
-        this.router.navigate(['login']);
-      }),
       catchError(error => {
         return throwError(error);
       })
@@ -61,6 +60,11 @@ export class AuthService {
     return this.http.post<SignInResponse>(API_ENDPOINTS.refresh, "", { headers: this.headers, withCredentials: true }).pipe(
       catchError(this.errorHandler)
     );
+  }
+
+  changePassword(passwordInfo: PasswordInfo) {
+    return this.http.put(API_ENDPOINTS.changePassword, passwordInfo, { headers: this.headers, withCredentials: true })
+      .pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error: any) {
