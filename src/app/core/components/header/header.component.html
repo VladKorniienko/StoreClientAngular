@@ -10,8 +10,21 @@
       routerLink="/users/{{ currentUserId }}"
       ><mat-icon>person</mat-icon>Profile</a
     >
-    <a mat-button class="nav-button" *ngIf="this.authService.isLoggedIn"
+    <a
+      mat-button
+      class="nav-button"
+      *ngIf="this.authService.isLoggedIn"
+      routerLink="/library"
       ><mat-icon>apps</mat-icon>Library</a
+    >
+    <a
+      mat-button
+      class="nav-button"
+      *ngIf="
+        this.authService.isLoggedIn && this.authService.getUserRole() == 'Admin'
+      "
+      routerLink="/admin-panel"
+      ><mat-icon>group</mat-icon>Users</a
     >
   </div>
   <div class="menu-item-container">

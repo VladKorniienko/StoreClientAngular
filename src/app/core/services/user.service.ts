@@ -21,6 +21,14 @@ export class UserService {
       })
       .pipe(catchError(this.errorHandler));
   }
+  getUsers(): Observable<Array<User>> {
+    return this.http
+      .get<Array<User>>(API_ENDPOINTS.users, {
+        headers: this.headers,
+        withCredentials: true,
+      })
+      .pipe(catchError(this.errorHandler));
+  }
   // Post Product
   buyProductForUser(productId: string): Observable<any> {
     return this.http

@@ -20,26 +20,35 @@ import { PasswordInfo } from '@shared/models/Auth/password-info';
 })
 export class AuthService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient, public router: Router) {}
 
   // Sign-up
   register(userToRegister: UserRegister): Observable<User> {
     return this.http
-      .post<User>(API_ENDPOINTS.register, userToRegister, { headers: this.headers })
+      .post<User>(API_ENDPOINTS.register, userToRegister, {
+        headers: this.headers,
+      })
       .pipe(catchError(this.errorHandler));
   }
 
   // Sign-in
   signIn(userToLogin: UserLogin) {
     return this.http
-      .post<SignInResponse>(API_ENDPOINTS.login, userToLogin, { headers: this.headers, withCredentials: true })
+      .post<SignInResponse>(API_ENDPOINTS.login, userToLogin, {
+        headers: this.headers,
+        withCredentials: true,
+      })
       .subscribe((res: SignInResponse) => {
         localStorage.setItem('authenticatedUserId', res.id);
+        localStorage.setItem('authenticatedUserRole', res.role);
         this.router.navigate(['users/' + res.id]);
       });
   }
   getUserId() {
     return localStorage.getItem('authenticatedUserId');
+  }
+  getUserRole() {
+    return localStorage.getItem('authenticatedUserRole') || '';
   }
   get isLoggedIn(): boolean {
     let isAuthenticated = this.getUserId();
@@ -49,21 +58,33 @@ export class AuthService {
   logout(): Observable<any> {
     localStorage.clear();
     this.router.navigate(['login']);
-    return this.http.post(API_ENDPOINTS.logout, "", { headers: this.headers, withCredentials: true }).pipe(
-      catchError(error => {
-        return throwError(error);
+    return this.http
+      .post(API_ENDPOINTS.logout, '', {
+        headers: this.headers,
+        withCredentials: true,
       })
-    );
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
   }
 
   refreshToken(): Observable<SignInResponse> {
-    return this.http.post<SignInResponse>(API_ENDPOINTS.refresh, "", { headers: this.headers, withCredentials: true }).pipe(
-      catchError(this.errorHandler)
-    );
+    return this.http
+      .post<SignInResponse>(API_ENDPOINTS.refresh, '', {
+        headers: this.headers,
+        withCredentials: true,
+      })
+      .pipe(catchError(this.errorHandler));
   }
 
   changePassword(passwordInfo: PasswordInfo) {
-    return this.http.put(API_ENDPOINTS.changePassword, passwordInfo, { headers: this.headers, withCredentials: true })
+    return this.http
+      .put(API_ENDPOINTS.changePassword, passwordInfo, {
+        headers: this.headers,
+        withCredentials: true,
+      })
       .pipe(catchError(this.errorHandler));
   }
 
