@@ -43,34 +43,42 @@
 -->
 
 <mat-card>
-  <mat-card-title class="center-text">Register</mat-card-title>
-<mat-card-content>
-<form [formGroup]="signUpForm">
-  <p>
-    <mat-form-field class="signUp-form-child" appearance="outline">
-      <mat-label>Username</mat-label>
-      <input matInput type="text" formControlName="userName" required>
-      <mat-error>Please enter a valid username</mat-error>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field class="signUp-form-child" appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" required>
-      <mat-error>Please enter a valid email</mat-error>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field class="signUp-form-child" appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password" required>
-      <mat-error>Please enter a valid password</mat-error>
-    </mat-form-field>
-  </p>     
-</form>
-</mat-card-content>
+  <mat-card-title class="center-text">REGISTER</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="signUpForm">
+      <p>
+        <mat-form-field class="signUp-form-child" appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" formControlName="userName" required />
+          <mat-error>Please enter a valid username</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="signUp-form-child" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required />
+          <mat-error>Please enter a valid email</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="signUp-form-child" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required />
+          <mat-error>Please enter a valid password</mat-error>
+        </mat-form-field>
+      </p>
+    </form>
+  </mat-card-content>
   <a routerLink="/login">Already have an account? Log in</a>
-<mat-card-actions>
-  <button class="signUp-form-child" mat-raised-button (click)="signUp()" color="primary" [disabled]="!signUpForm.valid">Sign up</button>
-</mat-card-actions>
+  <mat-card-actions align="end">
+    <button
+      class="signUp-form-child button"
+      mat-raised-button
+      (click)="signUp()"
+      color="primary"
+      [disabled]="!signUpForm.valid"
+    >
+      Sign up
+    </button>
+  </mat-card-actions>
 </mat-card>

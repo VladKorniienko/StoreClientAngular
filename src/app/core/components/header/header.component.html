@@ -1,12 +1,28 @@
-<mat-toolbar color="primary" class="mx-auto border space">
-  <div>
+<mat-toolbar color="primary" class="border space">
+  <div class="menu-container">
     <a mat-button class="nav-button" routerLink="/home">
-      <mat-icon>home</mat-icon>StoreApplication</a>
+      <mat-icon>home</mat-icon>StoreApplication</a
+    >
+    <a
+      mat-button
+      class="nav-button"
+      *ngIf="this.authService.isLoggedIn"
+      routerLink="/users/{{ currentUserId }}"
+      ><mat-icon>person</mat-icon>Profile</a
+    >
     <a mat-button class="nav-button" *ngIf="this.authService.isLoggedIn"
-      routerLink="/users/{{ currentUserId }}"><mat-icon>person</mat-icon>Profile</a>
-    <a mat-button class="nav-button" *ngIf="this.authService.isLoggedIn"><mat-icon>apps</mat-icon>Library</a>
+      ><mat-icon>apps</mat-icon>Library</a
+    >
   </div>
-  <button (click)="logout()" *ngIf="this.authService.isLoggedIn" mat-icon-button matTooltip="Logout">
-    <mat-icon>exit_to_app</mat-icon>
-  </button>
+  <div class="menu-item-container">
+    <button
+      class="logout-button"
+      (click)="logout()"
+      *ngIf="this.authService.isLoggedIn"
+      mat-icon-button
+      matTooltip="Logout"
+    >
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>

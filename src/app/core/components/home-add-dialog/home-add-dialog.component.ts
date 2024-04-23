@@ -8,6 +8,7 @@ import { GenreService } from '../../services/genre.service';
 import { Genre } from '@shared/models/Genre/genre';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '@shared/models/Category/category';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-add-dialog',
@@ -22,6 +23,7 @@ export class HomeAddDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public prodService: ProductsService,
     public genreService: GenreService,
+    public router: Router,
     public categoryService: CategoryService,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar
@@ -66,6 +68,7 @@ export class HomeAddDialogComponent implements OnInit {
 
   openSnackBar() {
     this._snackBar.open('Product has been added', 'OK');
+    this.router.navigate(['home']);
   }
   addProducts() {
     const formData = new FormData();
