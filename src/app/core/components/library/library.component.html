@@ -1,0 +1,27 @@
+<mat-grid-list cols="4" rowHeight="1.5:1" [gutterSize]="'10px'">
+  <mat-grid-tile *ngFor="let data of userProducts">
+    <mat-card>
+      <mat-card-header>
+        <div
+          mat-card-avatar
+          class="example-header-image"
+          [style.background-image]="
+            'url(data:image/jpeg;base64,' + data.icon + ')'
+          "
+        ></div>
+        <mat-card-title>{{ data.name }}</mat-card-title>
+        <mat-card-subtitle>{{ data.categoryName }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        {{ data.priceUSD }}
+      </mat-card-content>
+
+      <mat-card-actions align="end" class="card-actions">
+        <button mat-icon-button (click)="openInfoDialog(data)">
+          <mat-icon>info</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
