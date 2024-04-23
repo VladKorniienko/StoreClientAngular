@@ -9,7 +9,7 @@ import { HomeComponent } from './core/components/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/authconfig.interceptor';
 import { UserProfileComponent } from './core/components/user/user-profile/user-profile.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -33,8 +33,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HomeInfoDialogComponent } from './core/components/home-info-dialog/home-info-dialog.component';
 import { HomeBuyDialogComponent } from './core/components/home-buy-dialog/home-buy-dialog.component';
 import { HomeAddDialogComponent } from './core/components/home-add-dialog/home-add-dialog.component';
-
-
+import { LibraryComponent } from './core/components/library/library.component';
+import { AdminPanelComponent } from './core/components/admin-panel/admin-panel.component';
+import { RoleGuard } from '@shared/guards/role.guard';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,9 @@ import { HomeAddDialogComponent } from './core/components/home-add-dialog/home-a
     HeaderComponent,
     HomeInfoDialogComponent,
     HomeBuyDialogComponent,
-    HomeAddDialogComponent
+    HomeAddDialogComponent,
+    LibraryComponent,
+    AdminPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,17 +76,15 @@ import { HomeAddDialogComponent } from './core/components/home-add-dialog/home-a
     MatBadgeModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatPaginatorModule
-
+    MatPaginatorModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    }
-
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
