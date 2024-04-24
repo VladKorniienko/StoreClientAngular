@@ -48,6 +48,34 @@ export class UserService {
   getUserId() {
     return localStorage.getItem('authenticatedUserId') || '';
   }
+
+  changeUserInfo(user: User): Observable<any> {
+    return this.http
+      .put(API_ENDPOINTS.usersWithId(user.id), user, {
+        headers: this.headers,
+        withCredentials: true,
+      })
+      .pipe(catchError(this.errorHandler));
+  }
+
+  makeAdmin(userId: string): Observable<any> {
+    return this.http.put(API_ENDPOINTS.makeAdmin(userId), '', {
+      headers: this.headers,
+      withCredentials: true,
+    });
+  }
+  revokeAdmin(userId: string): Observable<any> {
+    return this.http.put(API_ENDPOINTS.revokeAdmin(userId), '', {
+      headers: this.headers,
+      withCredentials: true,
+    });
+  }
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete(API_ENDPOINTS.usersWithId(userId), {
+      headers: this.headers,
+      withCredentials: true,
+    });
+  }
   errorHandler(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

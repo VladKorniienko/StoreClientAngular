@@ -57,7 +57,12 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-icon-button mat-dialog-close (click)="addProducts()">
+  <button
+    mat-icon-button
+    mat-dialog-close
+    (click)="addProducts()"
+    [disabled]="!AddProductForm.dirty"
+  >
     <mat-icon>done</mat-icon>
   </button>
 </mat-dialog-actions>

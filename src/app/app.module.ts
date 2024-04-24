@@ -33,9 +33,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HomeInfoDialogComponent } from './core/components/home-info-dialog/home-info-dialog.component';
 import { HomeBuyDialogComponent } from './core/components/home-buy-dialog/home-buy-dialog.component';
 import { HomeAddDialogComponent } from './core/components/home-add-dialog/home-add-dialog.component';
-import { LibraryComponent } from './core/components/library/library.component';
+import { LibraryComponent } from './core/components/user/library/library.component';
 import { AdminPanelComponent } from './core/components/admin-panel/admin-panel.component';
 import { RoleGuard } from '@shared/guards/role.guard';
+import { UserEditDialogComponent } from './core/components/user/user-edit-dialog/user-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { RoleGuard } from '@shared/guards/role.guard';
     HomeAddDialogComponent,
     LibraryComponent,
     AdminPanelComponent,
+    UserEditDialogComponent,
   ],
   imports: [
     BrowserModule,
