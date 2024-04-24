@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '@shared/models/Product/product';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
-import { HomeInfoDialogComponent } from '../home-info-dialog/home-info-dialog.component';
+import { HomeInfoDialogComponent } from '../../home-info-dialog/home-info-dialog.component';
 
 @Component({
   selector: 'app-library',
