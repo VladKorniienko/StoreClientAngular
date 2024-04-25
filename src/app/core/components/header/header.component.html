@@ -23,8 +23,17 @@
       *ngIf="
         this.authService.isLoggedIn && this.authService.getUserRole() == 'Admin'
       "
-      routerLink="/admin-panel"
+      routerLink="/admin-panel-user"
       ><mat-icon>group</mat-icon>Users</a
+    >
+    <a
+      mat-button
+      class="nav-button"
+      *ngIf="
+        this.authService.isLoggedIn && this.authService.getUserRole() == 'Admin'
+      "
+      routerLink="/admin-panel-product"
+      ><mat-icon>library_books</mat-icon>Products</a
     >
   </div>
   <div class="menu-item-container">
