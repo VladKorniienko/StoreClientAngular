@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '@shared/models/User/user';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Product } from '@shared/models/Product/product';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { UserEditDialogComponent } from '../user/user-edit-dialog/user-edit-dialog.component';
+import { UserEditDialogComponent } from '../../user/user-edit-dialog/user-edit-dialog.component';
 
 @Component({
-  selector: 'app-admin-panel',
-  templateUrl: './admin-panel.component.html',
-  styleUrls: ['./admin-panel.component.css'],
+  selector: 'app-admin-panel-user',
+  templateUrl: './admin-panel-user.component.html',
+  styleUrls: ['./admin-panel-user.component.css'],
 })
-export class AdminPanelComponent implements OnInit {
+export class AdminPanelUserComponent implements OnInit {
   public columnsToDisplay = ['userName', 'email', 'role', 'balance', 'actions'];
   public usersToDisplay: Array<User>;
   dataSource: MatTableDataSource<User>;
