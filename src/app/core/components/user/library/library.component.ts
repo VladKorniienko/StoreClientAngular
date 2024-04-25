@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '@shared/models/Product/product';
 import { UserService } from '../../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
-import { HomeInfoDialogComponent } from '../../home-info-dialog/home-info-dialog.component';
+import { ProductInfoDialogComponent } from '../../product/product-info-dialog/product-info-dialog.component';
 
 @Component({
   selector: 'app-library',
@@ -16,7 +16,7 @@ export class LibraryComponent implements OnInit {
   }
 
   openInfoDialog(product: Product) {
-    this.dialog.open(HomeInfoDialogComponent, {
+    this.dialog.open(ProductInfoDialogComponent, {
       data: product,
       height: '600px',
       width: '800px',

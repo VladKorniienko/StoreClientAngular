@@ -7,8 +7,9 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { UserProfileComponent } from './core/components/user/user-profile/user-profile.component';
 import { LoggedInGuard } from '@shared/guards/logged-in.guard';
 import { LibraryComponent } from './core/components/user/library/library.component';
-import { AdminPanelComponent } from './core/components/admin-panel/admin-panel.component';
+import { AdminPanelUserComponent } from './core/components/admin/admin-panel-user/admin-panel-user.component';
 import { RoleGuard } from '@shared/guards/role.guard';
+import { AdminPanelProductComponent } from './core/components/admin/admin-panel-product/admin-panel-product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,8 +35,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'admin-panel',
-    component: AdminPanelComponent,
+    path: 'admin-panel-user',
+    component: AdminPanelUserComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'admin-panel-product',
+    component: AdminPanelProductComponent,
     canActivate: [AuthGuard, RoleGuard],
   },
 ];

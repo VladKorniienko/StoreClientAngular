@@ -30,13 +30,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HomeInfoDialogComponent } from './core/components/home-info-dialog/home-info-dialog.component';
-import { HomeBuyDialogComponent } from './core/components/home-buy-dialog/home-buy-dialog.component';
-import { HomeAddDialogComponent } from './core/components/home-add-dialog/home-add-dialog.component';
+import { ProductInfoDialogComponent } from './core/components/product/product-info-dialog/product-info-dialog.component';
+import { ProductBuyDialogComponent } from './core/components/product/product-buy-dialog/product-buy-dialog.component';
+import { ProductAddDialogComponent } from './core/components/product/product-add-dialog/product-add-dialog.component';
 import { LibraryComponent } from './core/components/user/library/library.component';
-import { AdminPanelComponent } from './core/components/admin-panel/admin-panel.component';
+import { AdminPanelUserComponent } from './core/components/admin/admin-panel-user/admin-panel-user.component';
 import { RoleGuard } from '@shared/guards/role.guard';
 import { UserEditDialogComponent } from './core/components/user/user-edit-dialog/user-edit-dialog.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { AdminPanelProductComponent } from './core/components/admin/admin-panel-product/admin-panel-product.component';
+import { ProductEditDialogComponent } from './core/components/product/product-edit-dialog/product-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,12 +49,14 @@ import { UserEditDialogComponent } from './core/components/user/user-edit-dialog
     HomeComponent,
     UserProfileComponent,
     HeaderComponent,
-    HomeInfoDialogComponent,
-    HomeBuyDialogComponent,
-    HomeAddDialogComponent,
+    ProductInfoDialogComponent,
+    ProductBuyDialogComponent,
+    ProductAddDialogComponent,
     LibraryComponent,
-    AdminPanelComponent,
+    AdminPanelUserComponent,
     UserEditDialogComponent,
+    AdminPanelProductComponent,
+    ProductEditDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +68,7 @@ import { UserEditDialogComponent } from './core/components/user/user-edit-dialog
     MatSidenavModule,
     MatGridListModule,
     MatMenuModule,
+    MatChipsModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,

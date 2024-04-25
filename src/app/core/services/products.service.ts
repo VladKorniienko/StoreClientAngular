@@ -29,8 +29,8 @@ export class ProductsService {
                 product.id,
                 product.name,
                 product.priceUSD,
-                product.genreName, // Get the name from the genre object
-                product.categoryName, // Get the name from the category object
+                product.genre, // Get the name from the genre object
+                product.category, // Get the name from the category object
                 product.description,
                 product.icon,
                 product.screenshots
@@ -44,6 +44,15 @@ export class ProductsService {
   addProduct(product: any): Observable<any> {
     return this.http
       .post(API_ENDPOINTS.products, product)
+      .pipe(catchError(this.handleError));
+  }
+
+  changeProduct(product: any, productId: string): Observable<any> {
+    return this.http
+      .put(API_ENDPOINTS.productsWithId(productId), product, {
+        headers: this.headers,
+        withCredentials: true,
+      })
       .pipe(catchError(this.handleError));
   }
 
