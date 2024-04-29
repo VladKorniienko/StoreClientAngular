@@ -15,9 +15,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  // public columnsToDisplay = ['name', 'priceUSD', 'category'];
-  //public dataSource = new MatTableDataSource<Product>();
-  //@ViewChild('paginator') paginator!: MatPaginator;
   public dataToDisplay: Array<Product>;
   constructor(
     public prodService: ProductsService,
@@ -50,8 +47,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.prodService.getProducts().subscribe((res) => {
       this.dataToDisplay = res;
-      // this.dataSource.data = res;
-      // this.dataSource.paginator = this.paginator;
     });
   }
 }
