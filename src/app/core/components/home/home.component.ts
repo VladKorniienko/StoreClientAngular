@@ -26,21 +26,21 @@ export class HomeComponent implements OnInit {
   openInfoDialog(product: Product) {
     this.dialog.open(ProductInfoDialogComponent, {
       data: product,
-      height: '600px',
+      height: '800px',
       width: '800px',
     });
   }
   openBuyDialog(product: Product) {
     this.dialog.open(ProductBuyDialogComponent, {
       data: product,
-      height: '600px',
+      height: '800px',
       width: '800px',
     });
   }
   openAddProductDialog(productService: ProductsService) {
     this.dialog.open(ProductAddDialogComponent, {
       data: productService,
-      height: '600px',
+      height: '800px',
       width: '800px',
     });
   }
