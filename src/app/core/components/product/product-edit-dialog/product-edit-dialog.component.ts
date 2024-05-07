@@ -38,7 +38,7 @@ export class ProductEditDialogComponent implements OnInit {
       category: product.category.id,
       description: product.description,
       icon: product.icon,
-      screenshots: product.screenshots,
+      screenshots: [''],
     });
   }
   ngOnInit(): void {
@@ -48,10 +48,26 @@ export class ProductEditDialogComponent implements OnInit {
     this.categoryService.getCategories().subscribe((res) => {
       this.categories = res;
     });
-    let screenshots = this.editProductForm.get('screenshots')?.value;
-    let screenshotArray = screenshots.split(',');
+    this.getScreenshotFilesFromStrings();
   }
 
+  getScreenshotFilesFromStrings() {
+    let files: File[] = this.product.screenshots.map((binaryString, index) => {
+      let array = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        array[i] = binaryString.charCodeAt(i);
+      }
+      let blob = new Blob([array], { type: 'image/jpeg' });
+
+      // Create a file from the blob
+      let file = new File([blob], `screenshot${index}.jpg`, {
+        type: 'image/jpeg',
+      });
+
+      return file;
+    });
+    this.editProductForm.get('screenshots')?.setValue(files);
+  }
   onIconSelected(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -64,14 +80,14 @@ export class ProductEditDialogComponent implements OnInit {
       for (let i = 0; i < event.target.files.length; i++) {
         this.editProductForm
           .get('screenshots')
-          ?.setValue(event.target.files[i]);
+          ?.patchValue(event.target.files[i]);
       }
     }
+    console.log(this.editProductForm.get('screenshots')?.value);
   }
   deleteScreenshot(index: number) {
     let screenshots = this.editProductForm.get('screenshots')?.value;
-    let screenshotArray = screenshots.split(',');
-    if (screenshotArray.length > 1) {
+    if (screenshots.length > 1) {
       screenshots.splice(index, 1);
       this.editProductForm.get('screenshots')?.setValue(screenshots);
     } else {

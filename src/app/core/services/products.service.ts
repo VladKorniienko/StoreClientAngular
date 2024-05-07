@@ -49,10 +49,7 @@ export class ProductsService {
 
   changeProduct(product: any, productId: string): Observable<any> {
     return this.http
-      .put(API_ENDPOINTS.productsWithId(productId), product, {
-        headers: this.headers,
-        withCredentials: true,
-      })
+      .put(API_ENDPOINTS.productsWithId(productId), product)
       .pipe(catchError(this.handleError));
   }
 

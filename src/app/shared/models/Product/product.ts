@@ -10,6 +10,6 @@ export class Product {
     public category: Category,
     public description: string,
     public icon: string,
-    public screenshots: Array<string>
+    public screenshots: string[]
   ) {}
 }

@@ -58,11 +58,8 @@
         </mat-card-actions>
       </mat-card>
     </p>
-    <p>
-      <mat-card
-        *ngFor="let screenshot of product.screenshots; let i = index"
-        class="example-card"
-      >
+    <p *ngFor="let screenshot of product.screenshots; let i = index">
+      <mat-card class="example-card">
         <mat-card-header>
           <mat-card-title>Screenshot</mat-card-title>
         </mat-card-header>
