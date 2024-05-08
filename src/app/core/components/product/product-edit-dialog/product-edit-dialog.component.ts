@@ -19,6 +19,7 @@ export class ProductEditDialogComponent implements OnInit {
   public editProductForm: FormGroup;
   public genres: Array<Genre>;
   public categories: Array<Category>;
+  public screenshots: File[] = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public product: Product,
     public prodService: ProductsService,
@@ -67,6 +68,7 @@ export class ProductEditDialogComponent implements OnInit {
       return file;
     });
     this.editProductForm.get('screenshots')?.setValue(files);
+    this.screenshots = files;
   }
   onIconSelected(event: any) {
     if (event.target.files.length > 0) {
@@ -78,18 +80,14 @@ export class ProductEditDialogComponent implements OnInit {
   onScreenshotsSelected(event: any) {
     if (event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
-        this.editProductForm
-          .get('screenshots')
-          ?.patchValue(event.target.files[i]);
+        this.screenshots.push(event.target.files[i]);
       }
     }
-    console.log(this.editProductForm.get('screenshots')?.value);
   }
+
   deleteScreenshot(index: number) {
-    let screenshots = this.editProductForm.get('screenshots')?.value;
-    if (screenshots.length > 1) {
-      screenshots.splice(index, 1);
-      this.editProductForm.get('screenshots')?.setValue(screenshots);
+    if (this.screenshots.length > 1) {
+      this.screenshots.splice(index, 1);
     } else {
       this.openSnackBar('Product must have at least 1 screenshot');
     }
@@ -108,10 +106,9 @@ export class ProductEditDialogComponent implements OnInit {
       this.editProductForm.get('description')?.value
     );
     formData.append('Icon', this.editProductForm.get('icon')?.value);
-    formData.append(
-      'Screenshots',
-      this.editProductForm.get('screenshots')?.value
-    );
+    for (let file of this.screenshots) {
+      formData.append('Screenshots', file, file.name);
+    }
     this.prodService
       .changeProduct(formData, this.editProductForm.get('id')?.value)
       .subscribe(
