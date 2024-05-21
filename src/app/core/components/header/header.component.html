@@ -1,6 +1,11 @@
 <mat-toolbar color="primary" class="border space">
   <div class="menu-container">
-    <a mat-button class="nav-button" routerLink="/home">
+    <a
+      mat-button
+      class="nav-button"
+      routerLink="/home"
+      routerLinkActive="active-link"
+    >
       <mat-icon>home</mat-icon>StoreApplication</a
     >
     <a
@@ -8,14 +13,18 @@
       class="nav-button"
       *ngIf="this.authService.isLoggedIn"
       routerLink="/users/{{ currentUserId }}"
-      ><mat-icon>person</mat-icon>Profile</a
+      routerLinkActive="active-link"
+    >
+      <mat-icon>person</mat-icon>Profile</a
     >
     <a
       mat-button
       class="nav-button"
       *ngIf="this.authService.isLoggedIn"
       routerLink="/library"
-      ><mat-icon>apps</mat-icon>Library</a
+      routerLinkActive="active-link"
+    >
+      <mat-icon>apps</mat-icon>Library</a
     >
     <a
       mat-button
@@ -24,7 +33,9 @@
         this.authService.isLoggedIn && this.authService.getUserRole() == 'Admin'
       "
       routerLink="/admin-panel-user"
-      ><mat-icon>group</mat-icon>Users</a
+      routerLinkActive="active-link"
+    >
+      <mat-icon>group</mat-icon>Users</a
     >
     <a
       mat-button
@@ -33,7 +44,9 @@
         this.authService.isLoggedIn && this.authService.getUserRole() == 'Admin'
       "
       routerLink="/admin-panel-product"
-      ><mat-icon>library_books</mat-icon>Products</a
+      routerLinkActive="active-link"
+    >
+      <mat-icon>library_books</mat-icon>Products</a
     >
   </div>
   <div class="menu-item-container">

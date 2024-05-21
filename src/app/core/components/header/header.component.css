@@ -39,7 +39,10 @@
   color: #ffffff;
   transform: translateY(-3px);
 }
-
+.active-link {
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.643);
+}
 .nav-button:active {
   transform: translateY(-1px);
 }
