@@ -46,6 +46,7 @@
       </button>
       <button
         mat-icon-button
+        color="accent"
         aria-label="Delete user's account"
         matTooltip="Delete"
         (click)="deleteUser(element)"
@@ -59,6 +60,6 @@
 </table>
 <mat-paginator
   #paginator
-  [pageSizeOptions]="[1, 4, 6]"
+  [pageSizeOptions]="[5, 15, 30]"
   showFirstLastButtons
 ></mat-paginator>

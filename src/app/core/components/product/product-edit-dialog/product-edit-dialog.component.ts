@@ -20,6 +20,7 @@ export class ProductEditDialogComponent implements OnInit {
   public genres: Array<Genre>;
   public categories: Array<Category>;
   public screenshots: File[] = [];
+  public counter: number = 0;
   constructor(
     @Inject(MAT_DIALOG_DATA) public product: Product,
     public prodService: ProductsService,
@@ -64,7 +65,8 @@ export class ProductEditDialogComponent implements OnInit {
       let file = new File([blob], `screenshot${index}.jpg`, {
         type: 'image/jpeg',
       });
-
+      this.counter = this.counter + 1;
+      console.log(this.counter);
       return file;
     });
     this.editProductForm.get('screenshots')?.setValue(files);

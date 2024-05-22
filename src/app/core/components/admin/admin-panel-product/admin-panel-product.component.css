@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+  border-collapse: separate; /* Ensures borders are treated separately, allowing border-radius */
+
+  border-radius: 10px; /* Adjust the radius value as needed */
+  overflow: hidden; /* Prevents overflow outside the rounded corners */
+}
+mat-paginator {
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: separate; /* Ensures borders are treated separately, allowing border-radius */
+  border-radius: 10px; /* Adjust the radius value as needed */
+  overflow: hidden; /* Prevents overflow outside the rounded corners */
+}

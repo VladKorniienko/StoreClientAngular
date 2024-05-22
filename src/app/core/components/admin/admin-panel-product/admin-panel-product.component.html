@@ -26,7 +26,12 @@
       >
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button aria-label="Delete product" matTooltip="Delete">
+      <button
+        mat-icon-button
+        color="accent"
+        aria-label="Delete product"
+        matTooltip="Delete"
+      >
         <mat-icon>delete</mat-icon>
       </button>
     </td>
@@ -36,6 +41,6 @@
 </table>
 <mat-paginator
   #paginator
-  [pageSizeOptions]="[1, 4, 6]"
+  [pageSizeOptions]="[5, 15, 30]"
   showFirstLastButtons
 ></mat-paginator>
