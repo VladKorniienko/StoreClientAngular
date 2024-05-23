@@ -19,8 +19,9 @@ export class ProductEditDialogComponent implements OnInit {
   public editProductForm: FormGroup;
   public genres: Array<Genre>;
   public categories: Array<Category>;
-  public screenshots: File[] = [];
-  public counter: number = 0;
+  public screenshotsFiles: Array<File> = [];
+  public screenshotsStrings: Array<string> = [];
+  public iconFile: File = new File([], '');
   constructor(
     @Inject(MAT_DIALOG_DATA) public product: Product,
     public prodService: ProductsService,
@@ -32,6 +33,10 @@ export class ProductEditDialogComponent implements OnInit {
   ) {
     this.genres = new Array<Genre>();
     this.categories = new Array<Category>();
+    this.screenshotsStrings = this.product.screenshots;
+    this.screenshotsFiles = this.getScreenshotFilesFromStrings();
+    this.iconFile = this.getIconFileFromString();
+
     this.editProductForm = this.formBuilder.group({
       id: product.id,
       name: product.name,
@@ -39,7 +44,7 @@ export class ProductEditDialogComponent implements OnInit {
       genre: product.genre.id,
       category: product.category.id,
       description: product.description,
-      icon: product.icon,
+      icon: '',
       screenshots: [''],
     });
   }
@@ -53,43 +58,77 @@ export class ProductEditDialogComponent implements OnInit {
     this.getScreenshotFilesFromStrings();
   }
 
-  getScreenshotFilesFromStrings() {
-    let files: File[] = this.product.screenshots.map((binaryString, index) => {
-      let array = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        array[i] = binaryString.charCodeAt(i);
-      }
-      let blob = new Blob([array], { type: 'image/jpeg' });
+  getScreenshotFilesFromStrings(): File[] {
+    let files: File[] = this.screenshotsStrings.map((binaryString, index) => {
+      // Convert the base64 string to a Uint8Array
+      const bytes = atob(binaryString);
+      const array = new Uint8Array(bytes.length);
 
-      // Create a file from the blob
-      let file = new File([blob], `screenshot${index}.jpg`, {
+      // Populate the Uint8Array with the binary data
+      for (let i = 0; i < bytes.length; i++) {
+        array[i] = bytes.charCodeAt(i);
+      }
+
+      // Create a Blob from the Uint8Array
+      const blob = new Blob([array], { type: 'image/jpeg' });
+
+      // Create a File object from the Blob
+      const file = new File([blob], `screenshot${index}.jpg`, {
         type: 'image/jpeg',
       });
-      this.counter = this.counter + 1;
-      console.log(this.counter);
+
       return file;
     });
-    this.editProductForm.get('screenshots')?.setValue(files);
-    this.screenshots = files;
+    return files;
   }
+
+  getIconFileFromString(): File {
+    const binaryString = this.product.icon; // assuming screenshotsString is a single base64 string
+
+    // Convert the base64 string to a Uint8Array
+    const bytes = atob(binaryString);
+    const array = new Uint8Array(bytes.length);
+
+    // Populate the Uint8Array with the binary data
+    for (let i = 0; i < bytes.length; i++) {
+      array[i] = bytes.charCodeAt(i);
+    }
+
+    // Create a Blob from the Uint8Array
+    const blob = new Blob([array], { type: 'image/jpeg' });
+
+    // Create a File object from the Blob
+    const file = new File([blob], 'icon.jpg', {
+      type: 'image/jpeg',
+    });
+    return file;
+  }
+
   onIconSelected(event: any) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.editProductForm.get('icon')?.setValue(file);
+      this.iconFile = event.target.files[0];
     }
   }
 
   onScreenshotsSelected(event: any) {
     if (event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
-        this.screenshots.push(event.target.files[i]);
+        this.screenshotsFiles.push(event.target.files[i]);
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64String = reader.result as string;
+          const base64Data = base64String.split(',')[1];
+          this.screenshotsStrings.push(base64Data);
+        };
+        reader.readAsDataURL(event.target.files[i]);
       }
     }
   }
 
   deleteScreenshot(index: number) {
-    if (this.screenshots.length > 1) {
-      this.screenshots.splice(index, 1);
+    if (this.screenshotsFiles.length > 1) {
+      this.screenshotsFiles.splice(index, 1);
+      this.screenshotsStrings.splice(index, 1);
     } else {
       this.openSnackBar('Product must have at least 1 screenshot');
     }
@@ -107,8 +146,8 @@ export class ProductEditDialogComponent implements OnInit {
       'Description',
       this.editProductForm.get('description')?.value
     );
-    formData.append('Icon', this.editProductForm.get('icon')?.value);
-    for (let file of this.screenshots) {
+    formData.append('Icon', this.iconFile);
+    for (let file of this.screenshotsFiles) {
       formData.append('Screenshots', file, file.name);
     }
     this.prodService

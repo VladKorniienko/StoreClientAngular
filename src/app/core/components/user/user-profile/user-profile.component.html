@@ -8,10 +8,18 @@
 
       <h2 class="mb-4">Change Password</h2>
       <form [formGroup]="changePasswordForm">
-        <label for="oldPasswordInput">Old Password:</label><br>
-        <input type="password" formControlName="oldPasswordInput" required><br>
-        <label for="newPasswordInput">New Password:</label><br>
-        <input type="password" formControlName="newPasswordInput" required><br>
+        <label for="oldPasswordInput">Old Password:</label><br />
+        <input
+          type="password"
+          formControlName="oldPasswordInput"
+          required
+        /><br />
+        <label for="newPasswordInput">New Password:</label><br />
+        <input
+          type="password"
+          formControlName="newPasswordInput"
+          required
+        /><br />
         <button (click)="changePassword()">Change Password</button>
       </form>
     </div>
