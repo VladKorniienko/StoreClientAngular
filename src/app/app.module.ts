@@ -40,6 +40,7 @@ import { UserEditDialogComponent } from './core/components/user/user-edit-dialog
 import { MatChipsModule } from '@angular/material/chips';
 import { AdminPanelProductComponent } from './core/components/admin/admin-panel-product/admin-panel-product.component';
 import { ProductEditDialogComponent } from './core/components/product/product-edit-dialog/product-edit-dialog.component';
+import { UserBalanceDialogComponent } from './core/components/user/user-balance-dialog/user-balance-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ProductEditDialogComponent } from './core/components/product/product-ed
     UserEditDialogComponent,
     AdminPanelProductComponent,
     ProductEditDialogComponent,
+    UserBalanceDialogComponent,
   ],
   imports: [
     BrowserModule,

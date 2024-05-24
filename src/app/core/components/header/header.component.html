@@ -51,6 +51,15 @@
   </div>
   <div class="menu-item-container">
     <button
+      class="balance-button"
+      mat-stroked-button
+      *ngIf="this.authService.isLoggedIn"
+      (click)="openEditBalanceDialog()"
+    >
+      <mat-icon>wallet</mat-icon>
+      {{ currentUser.balance }} $&nbsp;
+    </button>
+    <button
       class="logout-button"
       (click)="logout()"
       *ngIf="this.authService.isLoggedIn"

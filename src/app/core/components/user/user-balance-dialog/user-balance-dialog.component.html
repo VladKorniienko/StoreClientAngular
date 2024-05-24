@@ -1,0 +1,26 @@
+<h1 mat-dialog-title class="title">BALANCE</h1>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="editUserForm">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Balance</mat-label>
+        <span matTextPrefix>$&nbsp;</span>
+        <input matInput type="number" formControlName="balance" />
+      </mat-form-field>
+    </p>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-icon-button
+    mat-dialog-close
+    (click)="editUserBalance()"
+    [disabled]="!editUserForm.dirty"
+  >
+    <mat-icon>done</mat-icon>
+  </button>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-dialog-actions>
