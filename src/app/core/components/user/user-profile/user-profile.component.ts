@@ -12,8 +12,11 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
+  editForm!: FormGroup;
   currentUser: User = new User();
   changePasswordForm!: FormGroup;
+  isUserInfoEditing: boolean = false;
+  isPasswordEditing: boolean = false;
   constructor(
     public fb: FormBuilder,
     public userService: UserService,
@@ -21,29 +24,81 @@ export class UserProfileComponent implements OnInit {
     private actRoute: ActivatedRoute
   ) {
     this.changePasswordForm = this.fb.group({
-      oldPasswordInput: [''],
-      newPasswordInput: [''],
-    })
+      oldPasswordInput: [{ value: '', disabled: true }],
+      newPasswordInput: [{ value: '', disabled: true }],
+    });
+    this.editForm = this.fb.group({
+      username: [{ value: '', disabled: true }],
+      email: [{ value: '', disabled: true }],
+      balance: [{ value: '', disabled: true }],
+    });
   }
   ngOnInit() {
     let id = this.actRoute.snapshot.paramMap.get('id') || '';
     this.userService.getUser(id).subscribe((res: User) => {
       this.currentUser = res;
+      this.editForm.patchValue({
+        id: this.currentUser.id,
+        username: this.currentUser.userName,
+        email: this.currentUser.email,
+        balance: this.currentUser.balance,
+      });
     });
   }
   changePassword() {
-
     let passwordInfo = new PasswordInfo();
     passwordInfo.oldPassword = this.changePasswordForm.value.oldPasswordInput;
     passwordInfo.newPassword = this.changePasswordForm.value.newPasswordInput;
-
+    /*
     this.authService.changePassword(passwordInfo).subscribe(
-      data => {
+      (data) => {
         //add mat snack
       },
-      error => {
+      (error) => {
         //add mat snack
       }
-    )
+    );
+    */
+    console.log('pass');
+    this.changePasswordForm.reset();
+    this.changePasswordForm.get('oldPasswordInput')?.disable();
+    this.changePasswordForm.get('newPasswordInput')?.disable();
+    this.isPasswordEditing = false;
+  }
+  changeUserInfo() {
+    /*
+    this.userService.changeUserInfo(this.editForm.value).subscribe(
+      () => {
+        // Handle successful product addition
+      },
+      (error) => {
+        console.error('Error adding product', error);
+        // Handle error during product addition
+      }
+    );
+    */
+    // Logic to save edits
+    console.log('user');
+    this.isUserInfoEditing = false;
+    this.editForm.get('email')?.disable();
+    this.editForm.get('username')?.disable();
+    this.editForm.get('balance')?.disable();
+  }
+  enableUserInfoEdit(controlName: string) {
+    this.editForm.get(controlName)?.enable();
+    this.isUserInfoEditing = true;
+  }
+  enablePasswordEdit() {
+    this.changePasswordForm.get('oldPasswordInput')?.enable();
+    this.changePasswordForm.get('newPasswordInput')?.enable();
+    this.isPasswordEditing = true;
+  }
+  saveEdits() {
+    if (this.isPasswordEditing) {
+      this.changePassword();
+    }
+    if (this.isUserInfoEditing) {
+      this.changeUserInfo();
+    }
   }
 }
