@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@shared/models/User/user';
+import { catchError, of, tap } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class UserEditDialogComponent {
     @Inject(MAT_DIALOG_DATA) public user: User,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
-    public userService: UserService
+    public userService: UserService,
+    public dialogRef: MatDialogRef<UserEditDialogComponent>
   ) {
     this.editUserForm = this.formBuilder.group({
       id: user.id,
@@ -26,19 +28,29 @@ export class UserEditDialogComponent {
       balance: user.balance,
     });
   }
-  openSnackBar() {
-    this._snackBar.open('User has been edited', 'OK');
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'OK');
   }
   editUserInfo() {
-    this.userService.changeUserInfo(this.editUserForm.value).subscribe(
-      () => {
-        this.openSnackBar();
-        // Handle successful product addition
-      },
-      (error) => {
-        console.error('Error adding product', error);
-        // Handle error during product addition
-      }
-    );
+    this.userService
+      .changeUserInfo(this.editUserForm.value)
+      .pipe(
+        tap(() => {
+          this.openSnackBar('User has been edited');
+          this.dialogRef.close(true);
+          // Handle successful product addition
+        }),
+        catchError((error) => {
+          console.error('Error adding product', error);
+          this.openSnackBar('Something went wrong');
+          this.closeDialog();
+          // Handle error during product addition
+          return of();
+        })
+      )
+      .subscribe();
+  }
+  closeDialog() {
+    this.dialogRef.close(false); // Close without a result if the balance hasn't changed
   }
 }

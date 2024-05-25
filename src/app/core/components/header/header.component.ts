@@ -27,9 +27,15 @@ export class HeaderComponent {
     this.authService.logout().subscribe();
   }
   openEditBalanceDialog() {
-    this.dialog.open(UserBalanceDialogComponent, {
+    const userBalanceDialog = this.dialog.open(UserBalanceDialogComponent, {
       data: this.currentUser,
       width: '400px',
+    });
+    userBalanceDialog.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        // Ensure result is not undefined (if the user canceled the dialog)
+        this.currentUser.balance = result;
+      }
     });
   }
 }
