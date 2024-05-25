@@ -49,9 +49,9 @@ export class UserService {
     return localStorage.getItem('authenticatedUserId') || '';
   }
 
-  changeUserInfo(user: User): Observable<any> {
+  changeUserInfo(user: User): Observable<void> {
     return this.http
-      .put(API_ENDPOINTS.usersWithId(user.id), user, {
+      .put<void>(API_ENDPOINTS.usersWithId(user.id), user, {
         headers: this.headers,
         withCredentials: true,
       })
@@ -76,13 +76,8 @@ export class UserService {
       withCredentials: true,
     });
   }
-  errorHandler(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.Code}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
+  private errorHandler(error: any): Observable<never> {
+    console.error('An error occurred', error); // Customize this as needed
+    return throwError(error);
   }
 }

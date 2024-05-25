@@ -28,20 +28,33 @@ export class AdminPanelUserComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
   }
 
-  openEditUserDialog(user: User) {
-    this.dialog.open(UserEditDialogComponent, {
-      data: user,
-      height: '600px',
-      width: '800px',
-    });
+  ngOnInit(): void {
+    this.loadUsers();
   }
   openSnackBar(message: string) {
     this._snackBar.open(message, 'OK');
   }
+
+  openEditUserDialog(user: User) {
+    const dialogRef = this.dialog.open(UserEditDialogComponent, {
+      data: user,
+      height: '600px',
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Only reload if there were changes
+        this.loadUsers();
+      }
+    });
+  }
+
   makeAdmin(user: User) {
     if (user.role !== 'Admin') {
       this.userService.makeAdmin(user.id).subscribe((res) => {
         this.openSnackBar(`User ${user.userName} is now an admin.`);
+        this.loadUsers(); // Reload users after change
       });
     } else {
       this.openSnackBar(`User ${user.userName} is already an admin.`);
@@ -51,6 +64,7 @@ export class AdminPanelUserComponent implements OnInit {
     if (user.role == 'Admin') {
       this.userService.revokeAdmin(user.id).subscribe((res) => {
         this.openSnackBar(`User ${user.userName} is no longer an admin.`);
+        this.loadUsers(); // Reload users after change
       });
     } else {
       this.openSnackBar(`User ${user.userName} is not an admin.`);
@@ -59,9 +73,11 @@ export class AdminPanelUserComponent implements OnInit {
   deleteUser(user: User) {
     this.userService.deleteUser(user.id).subscribe((res) => {
       this.openSnackBar(`User ${user.userName} has been successfully deleted.`);
+      this.loadUsers(); // Reload users after deletion
     });
   }
-  ngOnInit(): void {
+
+  loadUsers() {
     this.userService.getUsers().subscribe((res) => {
       this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;

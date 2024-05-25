@@ -13,14 +13,15 @@
 
 <mat-dialog-actions>
   <button
-    mat-icon-button
+    mat-fab
     mat-dialog-close
     (click)="editUserBalance()"
     [disabled]="!editUserForm.dirty"
+    color="primary"
   >
     <mat-icon>done</mat-icon>
   </button>
-  <button mat-icon-button mat-dialog-close>
+  <button mat-icon-button mat-dialog-close (click)="closeDialog()">
     <mat-icon>close</mat-icon>
   </button>
 </mat-dialog-actions>

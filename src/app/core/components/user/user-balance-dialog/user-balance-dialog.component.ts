@@ -1,8 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@shared/models/User/user';
+import { catchError, of, tap } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -12,11 +13,13 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class UserBalanceDialogComponent {
   public editUserForm: FormGroup;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public user: User,
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
-    public userService: UserService
+    public userService: UserService,
+    public dialogRef: MatDialogRef<UserBalanceDialogComponent>
   ) {
     this.editUserForm = this.formBuilder.group({
       id: user.id,
@@ -25,19 +28,30 @@ export class UserBalanceDialogComponent {
       balance: user.balance,
     });
   }
-  openSnackBar() {
-    this._snackBar.open('Your balance has been changed', 'OK');
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'OK');
   }
   editUserBalance() {
-    this.userService.changeUserInfo(this.editUserForm.value).subscribe(
-      () => {
-        this.openSnackBar();
-        // Handle successful product addition
-      },
-      (error) => {
-        console.error('Error changing balance', error);
-        // Handle error during product addition
-      }
-    );
+    this.userService
+      .changeUserInfo(this.editUserForm.value)
+      .pipe(
+        tap(() => {
+          this.openSnackBar('Your balance has been changed');
+          const updatedBalance = this.editUserForm.get('balance')?.value;
+          this.dialogRef.close(updatedBalance); // Close dialog and pass back the updated balance
+          // Handle successful product addition
+        }),
+        catchError((error) => {
+          console.error('Error changing balance', error);
+          this.openSnackBar('Something went wrong');
+          this.dialogRef.close();
+          // Handle error during product addition
+          return of();
+        })
+      )
+      .subscribe();
+  }
+  closeDialog() {
+    this.dialogRef.close(); // Close without a result if the balance hasn't changed
   }
 }
