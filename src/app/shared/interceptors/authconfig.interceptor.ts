@@ -28,7 +28,10 @@ export class AuthInterceptor implements HttpInterceptor {
     // No need to add the token to the headers, as it's already in an HttpOnly cookie
     return next.handle(request).pipe(
       catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
+        if (
+          error instanceof HttpErrorResponse &&
+          (error.status === 401 || error.status === 500)
+        ) {
           // Check if the request is for the refresh token endpoint
           if (request.url.includes(API_ENDPOINTS.refresh)) {
             localStorage.clear();

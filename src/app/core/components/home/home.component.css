@@ -71,6 +71,7 @@ button {
   white-space: normal; /* Prevent text from wrapping to the next line */
   padding-right: 16px; /* Add some padding to ensure space between content and border */
 }
+
 .price {
   letter-spacing: -0.5px;
   margin-left: auto;
