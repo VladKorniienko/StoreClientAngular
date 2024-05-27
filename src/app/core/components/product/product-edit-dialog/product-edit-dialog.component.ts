@@ -9,6 +9,7 @@ import { Product } from '@shared/models/Product/product';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { GenreService } from 'src/app/core/services/genre.service';
 import { ProductsService } from 'src/app/core/services/products.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-product-edit-dialog',
@@ -29,7 +30,7 @@ export class ProductEditDialogComponent implements OnInit {
     public router: Router,
     public categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar
+    private snackBarService: SnackbarService
   ) {
     this.genres = new Array<Genre>();
     this.categories = new Array<Category>();
@@ -130,12 +131,12 @@ export class ProductEditDialogComponent implements OnInit {
       this.screenshotsFiles.splice(index, 1);
       this.screenshotsStrings.splice(index, 1);
     } else {
-      this.openSnackBar('Product must have at least 1 screenshot');
+      this.snackBarService.openSnackBar(
+        'Product must have at least 1 screenshot'
+      );
     }
   }
-  openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK');
-  }
+
   updateProduct() {
     const formData = new FormData();
     formData.append('Name', this.editProductForm.get('name')?.value);
@@ -154,7 +155,7 @@ export class ProductEditDialogComponent implements OnInit {
       .changeProduct(formData, this.editProductForm.get('id')?.value)
       .subscribe(
         () => {
-          this.openSnackBar('Product has been edited');
+          this.snackBarService.openSnackBar('Product has been edited');
           // Handle successful product addition
         },
         (error) => {

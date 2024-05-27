@@ -29,10 +29,9 @@ export class UserService {
       })
       .pipe(catchError(this.errorHandler));
   }
-  // Post Product
   buyProductForUser(productId: string): Observable<any> {
     return this.http
-      .put(
+      .put<any>(
         API_ENDPOINTS.buyProductWithId(
           this.getUserId(),
           (productId = productId)

@@ -34,8 +34,8 @@ export class UserProfileComponent implements OnInit {
     });
   }
   ngOnInit() {
-    let id = this.actRoute.snapshot.paramMap.get('id') || '';
-    this.userService.getUser(id).subscribe((res: User) => {
+    const currentUserId = this.userService.getUserId();
+    this.userService.getUser(currentUserId).subscribe((res: User) => {
       this.currentUser = res;
       this.editForm.patchValue({
         id: this.currentUser.id,

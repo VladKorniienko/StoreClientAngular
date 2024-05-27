@@ -7,6 +7,7 @@ import { Product } from '@shared/models/Product/product';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { UserEditDialogComponent } from '../../user/user-edit-dialog/user-edit-dialog.component';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-admin-panel-user',
@@ -14,28 +15,27 @@ import { UserEditDialogComponent } from '../../user/user-edit-dialog/user-edit-d
   styleUrls: ['./admin-panel-user.component.css'],
 })
 export class AdminPanelUserComponent implements OnInit {
-  public columnsToDisplay = ['userName', 'email', 'role', 'balance', 'actions'];
-  public usersToDisplay: Array<User>;
-  dataSource: MatTableDataSource<User>;
+  public columnsToDisplay: string[] = [
+    'userName',
+    'email',
+    'role',
+    'balance',
+    'actions',
+  ];
+  public dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     public userService: UserService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
-  ) {
-    this.usersToDisplay = new Array<User>();
-    this.dataSource = new MatTableDataSource();
-  }
+    private snackBarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
-  openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK');
-  }
 
-  openEditUserDialog(user: User) {
+  openEditUserDialog(user: User): void {
     const dialogRef = this.dialog.open(UserEditDialogComponent, {
       data: user,
       height: '600px',
@@ -44,42 +44,53 @@ export class AdminPanelUserComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Only reload if there were changes
         this.loadUsers();
       }
     });
   }
 
-  makeAdmin(user: User) {
+  makeAdmin(user: User): void {
     if (user.role !== 'Admin') {
-      this.userService.makeAdmin(user.id).subscribe((res) => {
-        this.openSnackBar(`User ${user.userName} is now an admin.`);
-        this.loadUsers(); // Reload users after change
+      this.userService.makeAdmin(user.id).subscribe(() => {
+        this.snackBarService.openSnackBar(
+          `User ${user.userName} is now an admin.`
+        );
+        this.loadUsers();
       });
     } else {
-      this.openSnackBar(`User ${user.userName} is already an admin.`);
+      this.snackBarService.openSnackBar(
+        `User ${user.userName} is already an admin.`
+      );
     }
   }
-  revokeAdmin(user: User) {
-    if (user.role == 'Admin') {
-      this.userService.revokeAdmin(user.id).subscribe((res) => {
-        this.openSnackBar(`User ${user.userName} is no longer an admin.`);
-        this.loadUsers(); // Reload users after change
+
+  revokeAdmin(user: User): void {
+    if (user.role === 'Admin') {
+      this.userService.revokeAdmin(user.id).subscribe(() => {
+        this.snackBarService.openSnackBar(
+          `User ${user.userName} is no longer an admin.`
+        );
+        this.loadUsers();
       });
     } else {
-      this.openSnackBar(`User ${user.userName} is not an admin.`);
+      this.snackBarService.openSnackBar(
+        `User ${user.userName} is not an admin.`
+      );
     }
   }
-  deleteUser(user: User) {
-    this.userService.deleteUser(user.id).subscribe((res) => {
-      this.openSnackBar(`User ${user.userName} has been successfully deleted.`);
-      this.loadUsers(); // Reload users after deletion
+
+  deleteUser(user: User): void {
+    this.userService.deleteUser(user.id).subscribe(() => {
+      this.snackBarService.openSnackBar(
+        `User ${user.userName} has been successfully deleted.`
+      );
+      this.loadUsers();
     });
   }
 
-  loadUsers() {
-    this.userService.getUsers().subscribe((res) => {
-      this.dataSource.data = res;
+  private loadUsers(): void {
+    this.userService.getUsers().subscribe((users) => {
+      this.dataSource.data = users;
       this.dataSource.paginator = this.paginator;
     });
   }

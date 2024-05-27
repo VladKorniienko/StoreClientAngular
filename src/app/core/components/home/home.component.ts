@@ -8,6 +8,7 @@ import { ProductInfoDialogComponent } from '../product/product-info-dialog/produ
 import { ProductBuyDialogComponent } from '../product/product-buy-dialog/product-buy-dialog.component';
 import { ProductAddDialogComponent } from '../product/product-add-dialog/product-add-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-home',
@@ -15,38 +16,41 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  public dataToDisplay: Array<Product>;
-  constructor(
-    public prodService: ProductsService,
-    public dialog: MatDialog,
-    private _snackBar: MatSnackBar
-  ) {
-    this.dataToDisplay = new Array<Product>();
+  public dataToDisplay: Product[] = [];
+
+  constructor(public prodService: ProductsService, private dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.loadProducts();
   }
-  openInfoDialog(product: Product) {
+
+  private loadProducts(): void {
+    this.prodService.getProducts().subscribe((products: Product[]) => {
+      this.dataToDisplay = products;
+    });
+  }
+
+  public openInfoDialog(product: Product): void {
     this.dialog.open(ProductInfoDialogComponent, {
       data: product,
       height: '800px',
       width: '800px',
     });
   }
-  openBuyDialog(product: Product) {
+
+  public openBuyDialog(product: Product): void {
     this.dialog.open(ProductBuyDialogComponent, {
       data: product,
       height: '800px',
       width: '800px',
     });
   }
-  openAddProductDialog(productService: ProductsService) {
+
+  public openAddProductDialog(productService: ProductsService): void {
     this.dialog.open(ProductAddDialogComponent, {
       data: productService,
       height: '800px',
       width: '800px',
-    });
-  }
-  ngOnInit() {
-    this.prodService.getProducts().subscribe((res) => {
-      this.dataToDisplay = res;
     });
   }
 }

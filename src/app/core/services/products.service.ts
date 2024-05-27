@@ -53,6 +53,11 @@ export class ProductsService {
       .pipe(catchError(this.handleError));
   }
 
+  deleteProduct(productId: string): Observable<void> {
+    return this.http
+      .delete<void>(API_ENDPOINTS.productsWithId(productId))
+      .pipe(catchError(this.handleError));
+  }
   // Error
   handleError(error: HttpErrorResponse) {
     let msg = '';

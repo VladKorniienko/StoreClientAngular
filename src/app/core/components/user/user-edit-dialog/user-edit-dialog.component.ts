@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@shared/models/User/user';
 import { catchError, of, tap } from 'rxjs';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class UserEditDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public user: User,
     private formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar,
+    private snackBarService: SnackbarService,
     public userService: UserService,
     public dialogRef: MatDialogRef<UserEditDialogComponent>
   ) {
@@ -28,21 +29,19 @@ export class UserEditDialogComponent {
       balance: user.balance,
     });
   }
-  openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK');
-  }
+
   editUserInfo() {
     this.userService
       .changeUserInfo(this.editUserForm.value)
       .pipe(
         tap(() => {
-          this.openSnackBar('User has been edited');
+          this.snackBarService.openSnackBar('User has been edited');
           this.dialogRef.close(true);
           // Handle successful product addition
         }),
         catchError((error) => {
-          console.error('Error adding product', error);
-          this.openSnackBar('Something went wrong');
+          console.error('Error editing user', error);
+          this.snackBarService.openSnackBar('Something went wrong');
           this.closeDialog();
           // Handle error during product addition
           return of();

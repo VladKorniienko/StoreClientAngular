@@ -76,3 +76,7 @@ button {
   letter-spacing: -0.5px;
   margin-left: auto;
 }
+.actions-button {
+  padding: 26px;
+  font-weight: bold;
+}

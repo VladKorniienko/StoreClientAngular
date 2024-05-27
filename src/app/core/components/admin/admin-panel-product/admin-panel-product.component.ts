@@ -7,6 +7,7 @@ import { Product } from '@shared/models/Product/product';
 import { User } from '@shared/models/User/user';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { ProductEditDialogComponent } from '../../product/product-edit-dialog/product-edit-dialog.component';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-admin-panel-product',
@@ -14,34 +15,48 @@ import { ProductEditDialogComponent } from '../../product/product-edit-dialog/pr
   styleUrls: ['./admin-panel-product.component.css'],
 })
 export class AdminPanelProductComponent implements OnInit {
-  public columnsToDisplay = [
+  public columnsToDisplay: string[] = [
     'name',
     'priceUSD',
     'category',
     'genre',
     'actions',
   ];
-  public productsToDisplay: Array<Product>;
-  dataSource: MatTableDataSource<Product>;
+  public dataSource: MatTableDataSource<Product> =
+    new MatTableDataSource<Product>();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   constructor(
-    public productService: ProductsService,
-    public dialog: MatDialog,
-    private _snackBar: MatSnackBar
-  ) {
-    this.productsToDisplay = new Array<Product>();
-    this.dataSource = new MatTableDataSource();
+    private productService: ProductsService,
+    private dialog: MatDialog,
+    private snackBarService: SnackbarService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadProducts();
   }
-  openEditProductDialog(product: Product) {
+
+  openEditProductDialog(product: Product): void {
     this.dialog.open(ProductEditDialogComponent, {
       data: product,
       height: '1000px',
       width: '2000px',
     });
   }
-  ngOnInit(): void {
-    this.productService.getProducts().subscribe((res) => {
-      this.dataSource.data = res;
+
+  deleteProduct(product: Product): void {
+    this.productService.deleteProduct(product.id).subscribe(() => {
+      this.snackBarService.openSnackBar(
+        `Product ${product.name} has been successfully deleted.`
+      );
+      this.loadProducts(); // Reload products after deletion
+    });
+  }
+
+  private loadProducts(): void {
+    this.productService.getProducts().subscribe((products) => {
+      this.dataSource.data = products;
       this.dataSource.paginator = this.paginator;
     });
   }

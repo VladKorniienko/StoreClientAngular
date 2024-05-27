@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { HttpEventType } from '@angular/common/http';
@@ -9,6 +9,7 @@ import { Genre } from '@shared/models/Genre/genre';
 import { CategoryService } from '../../../services/category.service';
 import { Category } from '@shared/models/Category/category';
 import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-product-add-dialog',
@@ -16,84 +17,93 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-add-dialog.component.css'],
 })
 export class ProductAddDialogComponent implements OnInit {
-  public AddProductForm: FormGroup;
-  public genres: Array<Genre>;
-  public categories: Array<Category>;
+  public addProductForm: FormGroup;
+  public genres: Genre[] = [];
+  public categories: Category[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public prodService: ProductsService,
-    public genreService: GenreService,
-    public router: Router,
-    public categoryService: CategoryService,
+    @Inject(MAT_DIALOG_DATA)
+    public prodService: ProductsService,
+    private genreService: GenreService,
+    private categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar
+    private snackBarService: SnackbarService
   ) {
-    this.genres = new Array<Genre>();
-    this.categories = new Array<Category>();
-    this.AddProductForm = this.formBuilder.group({
-      name: '',
-      priceUSD: '',
-      genre: '',
-      category: '',
-      description: '',
-      icon: '',
-      screenshots: [''],
-    });
-  }
-  ngOnInit(): void {
-    this.genreService.getGenres().subscribe((res) => {
-      this.genres = res;
-    });
-    this.categoryService.getCategories().subscribe((res) => {
-      this.categories = res;
+    this.addProductForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      priceUSD: ['', [Validators.required]],
+      genre: ['', Validators.required],
+      category: ['', Validators.required],
+      description: ['', Validators.required],
+      icon: [null, Validators.required],
+      screenshots: [null, Validators.required],
     });
   }
 
-  onIconSelected(event: any) {
+  ngOnInit(): void {
+    this.loadGenres();
+    this.loadCategories();
+  }
+
+  private loadGenres(): void {
+    this.genreService.getGenres().subscribe({
+      next: (res) => (this.genres = res),
+      error: (err) => console.error('Error loading genres', err),
+    });
+  }
+
+  private loadCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (res) => (this.categories = res),
+      error: (err) => console.error('Error loading categories', err),
+    });
+  }
+
+  public onIconSelected(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.AddProductForm.get('icon')?.setValue(file);
+      this.addProductForm.get('icon')?.setValue(file);
     }
   }
 
-  onScreenshotsSelected(event: any) {
+  public onScreenshotsSelected(event: any): void {
     if (event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
-        this.AddProductForm.get('screenshots')?.patchValue(
-          event.target.files[i]
-        );
+        this.addProductForm
+          .get('screenshots')
+          ?.patchValue(event.target.files[i]);
       }
     }
   }
 
-  openSnackBar() {
-    this._snackBar.open('Product has been added', 'OK');
-  }
-  addProducts() {
+  public addProduct() {
+    if (this.addProductForm.invalid) {
+      this.snackBarService.openSnackBar(
+        'Please fill in all required fields',
+        'OK'
+      );
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('Name', this.AddProductForm.get('name')?.value);
-    formData.append('PriceUSD', this.AddProductForm.get('priceUSD')?.value);
-    formData.append('GenreId', this.AddProductForm.get('genre')?.value);
-    formData.append('CategoryId', this.AddProductForm.get('category')?.value);
+    formData.append('Name', this.addProductForm.get('name')?.value);
+    formData.append('PriceUSD', this.addProductForm.get('priceUSD')?.value);
+    formData.append('GenreId', this.addProductForm.get('genre')?.value);
+    formData.append('CategoryId', this.addProductForm.get('category')?.value);
     formData.append(
       'Description',
-      this.AddProductForm.get('description')?.value
+      this.addProductForm.get('description')?.value
     );
-    formData.append('Icon', this.AddProductForm.get('icon')?.value);
+    formData.append('Icon', this.addProductForm.get('icon')?.value);
     formData.append(
       'Screenshots',
-      this.AddProductForm.get('screenshots')?.value
+      this.addProductForm.get('screenshots')?.value
     );
-
-    this.prodService.addProduct(formData).subscribe(
-      () => {
-        this.openSnackBar();
-        // Handle successful product addition
+    this.prodService.addProduct(formData).subscribe({
+      next: () => {
+        this.snackBarService.openSnackBar('Product has been added', 'OK');
       },
-      (error) => {
-        console.error('Error adding product', error);
-        // Handle error during product addition
-      }
-    );
+      error: (err) => console.error('Error adding product', err),
+    });
   }
 }

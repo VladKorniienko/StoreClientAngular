@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@shared/models/User/user';
 import { catchError, of, tap } from 'rxjs';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class UserBalanceDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public user: User,
     private formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar,
+    private snackBarService: SnackbarService,
     public userService: UserService,
     public dialogRef: MatDialogRef<UserBalanceDialogComponent>
   ) {
@@ -28,22 +29,20 @@ export class UserBalanceDialogComponent {
       balance: user.balance,
     });
   }
-  openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK');
-  }
+
   editUserBalance() {
     this.userService
       .changeUserInfo(this.editUserForm.value)
       .pipe(
         tap(() => {
-          this.openSnackBar('Your balance has been changed');
+          this.snackBarService.openSnackBar('Your balance has been changed');
           const updatedBalance = this.editUserForm.get('balance')?.value;
           this.dialogRef.close(updatedBalance); // Close dialog and pass back the updated balance
           // Handle successful product addition
         }),
         catchError((error) => {
           console.error('Error changing balance', error);
-          this.openSnackBar('Something went wrong');
+          this.snackBarService.openSnackBar('Something went wrong');
           this.dialogRef.close();
           // Handle error during product addition
           return of();

@@ -1,5 +1,5 @@
 <mat-dialog-content class="mat-typography">
-  <form [formGroup]="AddProductForm">
+  <form [formGroup]="addProductForm">
     <p>
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
@@ -61,8 +61,8 @@
   <button
     mat-icon-button
     mat-dialog-close
-    (click)="addProducts()"
-    [disabled]="!AddProductForm.dirty"
+    (click)="addProduct()"
+    [disabled]="!addProductForm.dirty"
   >
     <mat-icon>done</mat-icon>
   </button>

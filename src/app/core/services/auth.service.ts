@@ -14,13 +14,18 @@ import { API_ENDPOINTS } from '@shared/constants/api-endpoints';
 import { UserRegister } from '@shared/models/User/user-register';
 import { UserLogin } from '@shared/models/User/user-login';
 import { PasswordInfo } from '@shared/models/Auth/password-info';
+import { UserInfoService } from './user-info.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  constructor(private http: HttpClient, public router: Router) {}
+  constructor(
+    private http: HttpClient,
+    public router: Router,
+    private userInfoService: UserInfoService
+  ) {}
 
   // Sign-up
   register(userToRegister: UserRegister): Observable<User> {
@@ -32,18 +37,33 @@ export class AuthService {
   }
 
   // Sign-in
-  signIn(userToLogin: UserLogin) {
+  signIn(userToLogin: UserLogin): Observable<SignInResponse> {
     return this.http
       .post<SignInResponse>(API_ENDPOINTS.login, userToLogin, {
         headers: this.headers,
         withCredentials: true,
       })
-      .subscribe((res: SignInResponse) => {
-        localStorage.setItem('authenticatedUserId', res.id);
-        localStorage.setItem('authenticatedUserRole', res.role);
-        this.router.navigate(['users/' + res.id]);
-      });
+      .pipe(
+        tap((res: SignInResponse) => {
+          localStorage.setItem('authenticatedUserId', res.id);
+          localStorage.setItem('authenticatedUserRole', res.role);
+          this.userInfoService.updateUser({
+            id: res.id,
+            role: res.role,
+            userName: '',
+            email: '',
+            balance: 0,
+            products: [],
+          });
+          this.router.navigate(['users/' + res.id]);
+        }),
+        catchError((error) => {
+          console.error('Login failed', error);
+          return throwError(error);
+        })
+      );
   }
+
   getUserId() {
     return localStorage.getItem('authenticatedUserId');
   }
@@ -76,7 +96,24 @@ export class AuthService {
         headers: this.headers,
         withCredentials: true,
       })
-      .pipe(catchError(this.errorHandler));
+      .pipe(
+        tap((res: SignInResponse) => {
+          localStorage.setItem('authenticatedUserId', res.id);
+          localStorage.setItem('authenticatedUserRole', res.role);
+          this.userInfoService.updateUser({
+            id: res.id,
+            role: res.role,
+            userName: '',
+            email: '',
+            balance: 0,
+            products: [],
+          });
+        }),
+        catchError((error: any) => {
+          // Handle error here
+          return throwError(error);
+        })
+      );
   }
 
   changePassword(passwordInfo: PasswordInfo) {
