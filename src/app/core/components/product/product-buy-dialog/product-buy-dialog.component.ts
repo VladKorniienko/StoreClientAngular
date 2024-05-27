@@ -16,29 +16,31 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 export class ProductBuyDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Product,
-    public userService: UserService,
+    private userService: UserService,
     private snackBarService: SnackbarService,
     private userInfoService: UserInfoService
   ) {}
 
-  buyProduct() {
-    this.userService.buyProductForUser(this.data.id).pipe(
-      tap(() => {
-        this.snackBarService.openSnackBar(
-          'You successfully purchased the product'
-        );
-        this.userService
-          .getUser(this.userService.getUserId())
-          .subscribe((user: User) => {
-            this.userInfoService.updateUser(user);
-          });
-      }),
-      catchError((error) => {
-        console.error('Error editing user', error);
-        this.snackBarService.openSnackBar(error.message);
-        // Handle error during product addition
-        return of();
-      })
-    );
+  buyProduct(): void {
+    this.userService
+      .buyProductForUser(this.data.id)
+      .pipe(
+        tap(() => {
+          this.snackBarService.openSnackBar(
+            'You successfully purchased the product'
+          );
+          this.userService
+            .getUser(this.userService.getUserId())
+            .subscribe((user: User) => {
+              this.userInfoService.updateUser(user);
+            });
+        }),
+        catchError((error) => {
+          console.error('Error buying product', error);
+          this.snackBarService.openSnackBar(error.message);
+          return of(); // Return empty observable to prevent error propagation
+        })
+      )
+      .subscribe(); // Subscribe to execute the observable
   }
 }

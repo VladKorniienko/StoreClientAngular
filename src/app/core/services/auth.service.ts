@@ -20,14 +20,14 @@ import { UserInfoService } from './user-info.service';
   providedIn: 'root',
 })
 export class AuthService {
-  headers = new HttpHeaders().set('Content-Type', 'application/json');
+  private headers = new HttpHeaders().set('Content-Type', 'application/json');
+
   constructor(
     private http: HttpClient,
-    public router: Router,
+    private router: Router,
     private userInfoService: UserInfoService
   ) {}
 
-  // Sign-up
   register(userToRegister: UserRegister): Observable<User> {
     return this.http
       .post<User>(API_ENDPOINTS.register, userToRegister, {
@@ -36,7 +36,6 @@ export class AuthService {
       .pipe(catchError(this.errorHandler));
   }
 
-  // Sign-in
   signIn(userToLogin: UserLogin): Observable<SignInResponse> {
     return this.http
       .post<SignInResponse>(API_ENDPOINTS.login, userToLogin, {
@@ -55,24 +54,22 @@ export class AuthService {
             balance: 0,
             products: [],
           });
-          this.router.navigate(['users/' + res.id]);
+          this.router.navigate(['users', res.id]);
         }),
-        catchError((error) => {
-          console.error('Login failed', error);
-          return throwError(error);
-        })
+        catchError(this.handleError('Login failed'))
       );
   }
 
-  getUserId() {
+  getUserId(): string | null {
     return localStorage.getItem('authenticatedUserId');
   }
-  getUserRole() {
+
+  getUserRole(): string {
     return localStorage.getItem('authenticatedUserRole') || '';
   }
+
   get isLoggedIn(): boolean {
-    let isAuthenticated = this.getUserId();
-    return isAuthenticated !== null ? true : false;
+    return this.getUserId() !== null;
   }
 
   logout(): Observable<any> {
@@ -83,11 +80,7 @@ export class AuthService {
         headers: this.headers,
         withCredentials: true,
       })
-      .pipe(
-        catchError((error) => {
-          return throwError(error);
-        })
-      );
+      .pipe(catchError(this.errorHandler));
   }
 
   refreshToken(): Observable<SignInResponse> {
@@ -109,14 +102,11 @@ export class AuthService {
             products: [],
           });
         }),
-        catchError((error: any) => {
-          // Handle error here
-          return throwError(error);
-        })
+        catchError(this.handleError('Error refreshing token'))
       );
   }
 
-  changePassword(passwordInfo: PasswordInfo) {
+  changePassword(passwordInfo: PasswordInfo): Observable<any> {
     return this.http
       .put(API_ENDPOINTS.changePassword, passwordInfo, {
         headers: this.headers,
@@ -125,13 +115,20 @@ export class AuthService {
       .pipe(catchError(this.errorHandler));
   }
 
-  errorHandler(error: any) {
+  private errorHandler(error: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
     } else {
-      errorMessage = `Error Code: ${error.Code}\nMessage: ${error.message}`;
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
+  }
+
+  private handleError(message: string) {
+    return (error: any): Observable<never> => {
+      console.error(message, error);
+      return throwError(error);
+    };
   }
 }

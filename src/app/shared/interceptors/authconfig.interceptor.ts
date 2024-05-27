@@ -20,7 +20,8 @@ import { API_ENDPOINTS } from '@shared/constants/api-endpoints';
 import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService, public router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
+
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -44,6 +45,12 @@ export class AuthInterceptor implements HttpInterceptor {
               switchMap(() => {
                 // After refreshing the token, retry the original request
                 return next.handle(request);
+              }),
+              catchError((refreshError) => {
+                // Handle refresh token error
+                localStorage.clear();
+                this.router.navigate(['login']);
+                return throwError(refreshError);
               })
             );
           }

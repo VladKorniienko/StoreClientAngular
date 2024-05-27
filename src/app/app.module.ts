@@ -35,7 +35,6 @@ import { ProductBuyDialogComponent } from './core/components/product/product-buy
 import { ProductAddDialogComponent } from './core/components/product/product-add-dialog/product-add-dialog.component';
 import { LibraryComponent } from './core/components/user/library/library.component';
 import { AdminPanelUserComponent } from './core/components/admin/admin-panel-user/admin-panel-user.component';
-import { RoleGuard } from '@shared/guards/role.guard';
 import { UserEditDialogComponent } from './core/components/user/user-edit-dialog/user-edit-dialog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { AdminPanelProductComponent } from './core/components/admin/admin-panel-product/admin-panel-product.component';

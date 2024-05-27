@@ -1,33 +1,15 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateFn,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class LoggedInGuard {
-  constructor(public authService: AuthService, public router: Router) {}
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    if (this.authService.isLoggedIn === true) {
-      window.alert('You are already logged in!');
-      this.router.navigate(['home']);
-      return false;
-    }
-    return true;
+export const loggedInGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isLoggedIn) {
+    window.alert('You are already logged in!');
+    router.navigate(['home']);
+    return false;
   }
-}
+  return true;
+};

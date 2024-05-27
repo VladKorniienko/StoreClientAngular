@@ -19,8 +19,8 @@ export class UserBalanceDialogComponent {
     @Inject(MAT_DIALOG_DATA) public user: User,
     private formBuilder: FormBuilder,
     private snackBarService: SnackbarService,
-    public userService: UserService,
-    public dialogRef: MatDialogRef<UserBalanceDialogComponent>
+    private userService: UserService,
+    private dialogRef: MatDialogRef<UserBalanceDialogComponent>
   ) {
     this.editUserForm = this.formBuilder.group({
       id: user.id,
@@ -30,7 +30,7 @@ export class UserBalanceDialogComponent {
     });
   }
 
-  editUserBalance() {
+  editUserBalance(): void {
     this.userService
       .changeUserInfo(this.editUserForm.value)
       .pipe(
@@ -50,7 +50,8 @@ export class UserBalanceDialogComponent {
       )
       .subscribe();
   }
-  closeDialog() {
+
+  closeDialog(): void {
     this.dialogRef.close(); // Close without a result if the balance hasn't changed
   }
 }

@@ -19,8 +19,8 @@ export class UserEditDialogComponent {
     @Inject(MAT_DIALOG_DATA) public user: User,
     private formBuilder: FormBuilder,
     private snackBarService: SnackbarService,
-    public userService: UserService,
-    public dialogRef: MatDialogRef<UserEditDialogComponent>
+    private userService: UserService,
+    private dialogRef: MatDialogRef<UserEditDialogComponent>
   ) {
     this.editUserForm = this.formBuilder.group({
       id: user.id,
@@ -30,26 +30,25 @@ export class UserEditDialogComponent {
     });
   }
 
-  editUserInfo() {
+  editUserInfo(): void {
     this.userService
       .changeUserInfo(this.editUserForm.value)
       .pipe(
         tap(() => {
           this.snackBarService.openSnackBar('User has been edited');
           this.dialogRef.close(true);
-          // Handle successful product addition
         }),
         catchError((error) => {
           console.error('Error editing user', error);
           this.snackBarService.openSnackBar('Something went wrong');
           this.closeDialog();
-          // Handle error during product addition
-          return of();
+          return [];
         })
       )
       .subscribe();
   }
-  closeDialog() {
+
+  closeDialog(): void {
     this.dialogRef.close(false); // Close without a result if the balance hasn't changed
   }
 }

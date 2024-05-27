@@ -4,12 +4,12 @@ import { AuthService } from './core/services/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'StoreAppProject';
-  constructor(public authService: AuthService) { }
-  logout() {
-    this.authService.logout()
+  constructor(public authService: AuthService) {}
+  logout(): void {
+    this.authService.logout();
   }
 }

@@ -10,12 +10,15 @@ import { ProductInfoDialogComponent } from '../../product/product-info-dialog/pr
   styleUrls: ['./library.component.css'],
 })
 export class LibraryComponent implements OnInit {
-  public userProducts: Array<Product>;
-  constructor(public userService: UserService, public dialog: MatDialog) {
-    this.userProducts = new Array<Product>();
+  public userProducts: Product[] = [];
+
+  constructor(private userService: UserService, public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.loadUserProducts();
   }
 
-  openInfoDialog(product: Product) {
+  openInfoDialog(product: Product): void {
     this.dialog.open(ProductInfoDialogComponent, {
       data: product,
       height: '600px',
@@ -23,10 +26,16 @@ export class LibraryComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    let userId = this.userService.getUserId();
-    this.userService.getUser(userId).subscribe((res) => {
-      this.userProducts = res.products;
+  private loadUserProducts(): void {
+    const userId = this.userService.getUserId();
+    this.userService.getUser(userId).subscribe({
+      next: (res) => {
+        this.userProducts = res.products;
+      },
+      error: (error) => {
+        console.error('Error loading user products:', error);
+        // Handle error loading user products
+      },
     });
   }
 }
