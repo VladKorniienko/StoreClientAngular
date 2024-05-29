@@ -20,6 +20,7 @@ export class ProductAddDialogComponent implements OnInit {
   public addProductForm: FormGroup;
   public genres: Genre[] = [];
   public categories: Category[] = [];
+  public screenshotsFiles: File[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -36,7 +37,6 @@ export class ProductAddDialogComponent implements OnInit {
       category: ['', Validators.required],
       description: ['', Validators.required],
       icon: [null, Validators.required],
-      screenshots: [null, Validators.required],
     });
   }
 
@@ -69,9 +69,8 @@ export class ProductAddDialogComponent implements OnInit {
   public onScreenshotsSelected(event: any): void {
     if (event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
-        this.addProductForm
-          .get('screenshots')
-          ?.patchValue(event.target.files[i]);
+        const file = event.target.files[i];
+        this.screenshotsFiles.push(file);
       }
     }
   }
@@ -95,10 +94,9 @@ export class ProductAddDialogComponent implements OnInit {
       this.addProductForm.get('description')?.value
     );
     formData.append('Icon', this.addProductForm.get('icon')?.value);
-    formData.append(
-      'Screenshots',
-      this.addProductForm.get('screenshots')?.value
-    );
+    for (let file of this.screenshotsFiles) {
+      formData.append('Screenshots', file, file.name);
+    }
     this.prodService.addProduct(formData).subscribe({
       next: () => {
         this.snackBarService.openSnackBar('Product has been added', 'OK');
