@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Category } from '@shared/models/Category/category';
@@ -31,7 +31,8 @@ export class ProductEditDialogComponent implements OnInit {
     private genreService: GenreService,
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    private snackBarService: SnackbarService
+    private snackBarService: SnackbarService,
+    private dialogRef: MatDialogRef<ProductEditDialogComponent>
   ) {
     this.editProductForm = this.formBuilder.group({
       id: [product.id],
@@ -154,10 +155,16 @@ export class ProductEditDialogComponent implements OnInit {
       .subscribe({
         next: () => {
           this.snackBarService.openSnackBar('Product has been edited');
+          this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error editing product', err);
+          this.snackBarService.openSnackBar('Something went wrong');
+          this.closeDialog();
         },
       });
+  }
+  closeDialog(): void {
+    this.dialogRef.close(false); // Close without a result if the product hasn't changed
   }
 }

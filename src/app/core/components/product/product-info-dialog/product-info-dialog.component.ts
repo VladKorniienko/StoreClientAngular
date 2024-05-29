@@ -9,4 +9,17 @@ import { Product } from '@shared/models/Product/product';
 })
 export class ProductInfoDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: Product) {}
+
+  currentIndex = 0;
+  showNextImage() {
+    if (this.currentIndex < this.data.screenshots.length - 1) {
+      this.currentIndex++;
+    }
+  }
+
+  showPreviousImage() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    }
+  }
 }

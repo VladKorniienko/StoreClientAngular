@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
-import { UserInfoService } from '../../services/user-info.service';
 import { User } from '@shared/models/User/user';
+import { UserService } from '../../services/user.service';
+import { catchError, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +19,7 @@ export class LoginPageComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private userInfoService: UserInfoService
+    private userService: UserService
   ) {
     this.signInForm = this.createSignInForm();
   }
@@ -34,13 +35,24 @@ export class LoginPageComponent implements OnInit {
 
   public logIn(): void {
     if (this.signInForm.valid) {
-      this.authService.signIn(this.signInForm.value).subscribe(
-        (res) => {},
-        (error) => {
-          // Handle login error (e.g., show error message)
-          console.error('Login error', error);
-        }
-      );
+      this.authService
+        .signIn(this.signInForm.value)
+        .pipe(
+          switchMap((signInResponse) => {
+            // Assuming signInResponse contains user ID or relevant information
+            return this.userService.getUser(signInResponse.id);
+          })
+        )
+        .subscribe(
+          (user) => {
+            // Update user after successful login
+            this.userService.updateUser(user);
+          },
+          (error) => {
+            // Handle error
+            console.error('Error fetching user after login:', error);
+          }
+        );
     } else {
       // Handle form validation errors (e.g., show validation messages)
       console.warn('Sign-in form is not valid');

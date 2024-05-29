@@ -2,8 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Product } from '@shared/models/Product/product';
 import { UserService } from '../../../services/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserInfoService } from 'src/app/core/services/user-info.service';
 import { User } from '@shared/models/User/user';
 import { catchError, of, tap } from 'rxjs';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
@@ -17,8 +15,7 @@ export class ProductBuyDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Product,
     private userService: UserService,
-    private snackBarService: SnackbarService,
-    private userInfoService: UserInfoService
+    private snackBarService: SnackbarService
   ) {}
 
   buyProduct(): void {
@@ -32,7 +29,7 @@ export class ProductBuyDialogComponent {
           this.userService
             .getUser(this.userService.getUserId())
             .subscribe((user: User) => {
-              this.userInfoService.updateUser(user);
+              this.userService.updateUser(user);
             });
         }),
         catchError((error) => {

@@ -14,7 +14,6 @@ import { API_ENDPOINTS } from '@shared/constants/api-endpoints';
 import { UserRegister } from '@shared/models/User/user-register';
 import { UserLogin } from '@shared/models/User/user-login';
 import { PasswordInfo } from '@shared/models/Auth/password-info';
-import { UserInfoService } from './user-info.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +21,7 @@ import { UserInfoService } from './user-info.service';
 export class AuthService {
   private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private userInfoService: UserInfoService
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   register(userToRegister: UserRegister): Observable<User> {
     return this.http
@@ -46,14 +41,6 @@ export class AuthService {
         tap((res: SignInResponse) => {
           localStorage.setItem('authenticatedUserId', res.id);
           localStorage.setItem('authenticatedUserRole', res.role);
-          this.userInfoService.updateUser({
-            id: res.id,
-            role: res.role,
-            userName: '',
-            email: '',
-            balance: 0,
-            products: [],
-          });
           this.router.navigate(['users', res.id]);
         }),
         catchError(this.handleError('Login failed'))
@@ -93,14 +80,6 @@ export class AuthService {
         tap((res: SignInResponse) => {
           localStorage.setItem('authenticatedUserId', res.id);
           localStorage.setItem('authenticatedUserRole', res.role);
-          this.userInfoService.updateUser({
-            id: res.id,
-            role: res.role,
-            userName: '',
-            email: '',
-            balance: 0,
-            products: [],
-          });
         }),
         catchError(this.handleError('Error refreshing token'))
       );

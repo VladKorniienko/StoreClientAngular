@@ -18,6 +18,31 @@
       <span>{{ data.description }}</span>
     </mat-list-item>
   </mat-list>
+  <div class="carousel-container">
+    <button
+      mat-icon-button
+      matTooltip="Previous"
+      class="nav-button prev"
+      (click)="showPreviousImage()"
+      [disabled]="currentIndex === 0"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <img
+      [src]="'data:image/jpeg;base64,' + data.screenshots[currentIndex]"
+      alt="Image carousel"
+      class="carousel-image"
+    />
+    <button
+      mat-icon-button
+      matTooltip="Next"
+      class="nav-button next"
+      (click)="showNextImage()"
+      [disabled]="currentIndex === data.screenshots.length - 1"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-icon-button mat-dialog-close>

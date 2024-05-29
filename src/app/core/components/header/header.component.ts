@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserBalanceDialogComponent } from '../user/user-balance-dialog/user-balance-dialog.component';
-import { UserInfoService } from '../../services/user-info.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -18,15 +18,12 @@ export class HeaderComponent implements OnInit {
     public authService: AuthService,
     private userService: UserService,
     private dialog: MatDialog,
-    private userInfoService: UserInfoService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadCurrentUser();
-    this.userInfoService.userUpdated$.subscribe((user: User) => {
-      if (user) {
-        this.currentUser = user;
-      }
+    this.userService.userUpdated$.subscribe((user: User) => {
+      this.currentUser = user;
     });
   }
 
@@ -35,7 +32,7 @@ export class HeaderComponent implements OnInit {
     if (currentUserId) {
       this.userService.getUser(currentUserId).subscribe((user: User) => {
         this.currentUser = user;
-        this.userInfoService.updateUser(user); // Ensure user info is updated across the app
+        this.userService.updateUser(user); // Ensure user info is updated across the app
       });
     }
   }

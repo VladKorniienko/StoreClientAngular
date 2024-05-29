@@ -38,10 +38,16 @@ export class AdminPanelProductComponent implements OnInit {
   }
 
   openEditProductDialog(product: Product): void {
-    this.dialog.open(ProductEditDialogComponent, {
+    const dialogRef = this.dialog.open(ProductEditDialogComponent, {
       data: product,
-      height: '1000px',
-      width: '2000px',
+      height: '800px',
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadProducts();
+      }
     });
   }
 

@@ -34,15 +34,15 @@ export class UserProfileComponent implements OnInit {
     });
   }
   ngOnInit() {
-    const currentUserId = this.userService.getUserId();
-    this.userService.getUser(currentUserId).subscribe((res: User) => {
-      this.currentUser = res;
-      this.editForm.patchValue({
-        id: this.currentUser.id,
-        username: this.currentUser.userName,
-        email: this.currentUser.email,
-        balance: this.currentUser.balance,
-      });
+    this.userService.userUpdated$.subscribe((user: User) => {
+      this.currentUser = user;
+    });
+
+    this.editForm.patchValue({
+      id: this.currentUser.id,
+      username: this.currentUser.userName,
+      email: this.currentUser.email,
+      balance: this.currentUser.balance,
     });
   }
   changePassword() {
