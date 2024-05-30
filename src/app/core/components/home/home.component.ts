@@ -54,12 +54,4 @@ export class HomeComponent implements OnInit {
       width: '800px',
     });
   }
-
-  public openAddProductDialog(productService: ProductsService): void {
-    this.dialog.open(ProductAddDialogComponent, {
-      data: productService,
-      height: '800px',
-      width: '800px',
-    });
-  }
 }

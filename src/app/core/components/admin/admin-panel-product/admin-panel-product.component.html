@@ -5,6 +5,17 @@
   ></mat-progress-spinner>
 </div>
 <div *ngIf="!isLoading">
+  <div class="menu-item-container">
+    <button
+      class="add-button"
+      mat-fab
+      extended
+      (click)="openAddProductDialog(productService)"
+    >
+      <mat-icon>add</mat-icon>Add
+    </button>
+  </div>
+
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef>Name</th>

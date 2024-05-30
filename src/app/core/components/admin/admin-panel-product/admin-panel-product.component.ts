@@ -8,6 +8,7 @@ import { User } from '@shared/models/User/user';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { ProductEditDialogComponent } from '../../product/product-edit-dialog/product-edit-dialog.component';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { ProductAddDialogComponent } from '../../product/product-add-dialog/product-add-dialog.component';
 
 @Component({
   selector: 'app-admin-panel-product',
@@ -29,7 +30,7 @@ export class AdminPanelProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private productService: ProductsService,
+    public productService: ProductsService,
     private dialog: MatDialog,
     private snackBarService: SnackbarService
   ) {}
@@ -74,5 +75,12 @@ export class AdminPanelProductComponent implements OnInit {
         this.isLoading = false; // Set isLoading to false in case of an error
       }
     );
+  }
+  public openAddProductDialog(productService: ProductsService): void {
+    this.dialog.open(ProductAddDialogComponent, {
+      data: productService,
+      height: '800px',
+      width: '800px',
+    });
   }
 }
