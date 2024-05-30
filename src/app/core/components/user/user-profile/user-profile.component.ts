@@ -3,7 +3,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PasswordInfo } from '@shared/models/Auth/password-info';
 import { User } from '@shared/models/User/user';
+import { catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -21,7 +24,8 @@ export class UserProfileComponent implements OnInit {
     public fb: FormBuilder,
     public userService: UserService,
     public authService: AuthService,
-    private actRoute: ActivatedRoute
+    private userDataService: UserDataService,
+    private snackbarService: SnackbarService
   ) {
     this.changePasswordForm = this.fb.group({
       oldPasswordInput: [{ value: '', disabled: true }],
@@ -34,15 +38,39 @@ export class UserProfileComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.userService.userUpdated$.subscribe((user: User) => {
-      this.currentUser = user;
-    });
+    this.loadUserData();
+  }
 
-    this.editForm.patchValue({
-      id: this.currentUser.id,
-      username: this.currentUser.userName,
-      email: this.currentUser.email,
-      balance: this.currentUser.balance,
+  loadUserData() {
+    this.userDataService.currentUser.subscribe({
+      next: (user: User | null) => {
+        if (user) {
+          this.userService
+            .getUser(user.id)
+            .pipe(
+              tap((fetchedUser: User) => {
+                this.currentUser = fetchedUser; // Update current user data
+                this.editForm.patchValue({
+                  username: this.currentUser.userName,
+                  email: this.currentUser.email,
+                  balance: this.currentUser.balance,
+                });
+              }),
+              catchError((err) => {
+                this.snackbarService.openSnackBar(
+                  'Something went wrong! Try to log in again to display your data!'
+                );
+                return throwError(err); // Ensure observable completes with an error
+              })
+            )
+            .subscribe();
+        }
+      },
+      error: () => {
+        this.snackbarService.openSnackBar(
+          'Something went wrong! Try to log in again to display your data!'
+        );
+      },
     });
   }
   changePassword() {

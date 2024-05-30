@@ -7,19 +7,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { API_ENDPOINTS } from '@shared/constants/api-endpoints';
 import { User } from '@shared/models/User/user';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-  private userStateSource = new BehaviorSubject<User>(new User());
-  userUpdated$ = this.userStateSource.asObservable();
-  updateUser(user: User) {
-    this.userStateSource.next(user);
-  }
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -51,7 +45,10 @@ export class UserService {
         headers: this.headers,
         withCredentials: true,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        tap(), // Refresh user after buying product
+        catchError(this.handleError)
+      );
   }
 
   // Get User ID from local storage
@@ -66,7 +63,7 @@ export class UserService {
         headers: this.headers,
         withCredentials: true,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(tap(), catchError(this.handleError));
   }
 
   // Make User Admin

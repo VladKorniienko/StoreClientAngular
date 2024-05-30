@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   HttpClient,
@@ -14,6 +14,8 @@ import { API_ENDPOINTS } from '@shared/constants/api-endpoints';
 import { UserRegister } from '@shared/models/User/user-register';
 import { UserLogin } from '@shared/models/User/user-login';
 import { PasswordInfo } from '@shared/models/Auth/password-info';
+import { UserDataService } from './user-data.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +23,12 @@ import { PasswordInfo } from '@shared/models/Auth/password-info';
 export class AuthService {
   private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private userDataService: UserDataService,
+    private userService: UserService
+  ) {}
 
   register(userToRegister: UserRegister): Observable<User> {
     return this.http
@@ -38,10 +45,14 @@ export class AuthService {
         withCredentials: true,
       })
       .pipe(
-        tap((res: SignInResponse) => {
+        switchMap((res: SignInResponse) => {
           localStorage.setItem('authenticatedUserId', res.id);
           localStorage.setItem('authenticatedUserRole', res.role);
-          this.router.navigate(['users', res.id]);
+          return this.userService.getUser(res.id); // Fetch user details after login
+        }),
+        tap((user: User) => {
+          this.userDataService.setCurrentUser(user); // Update current user data
+          this.router.navigate(['users', user.id]);
         }),
         catchError(this.handleError('Login failed'))
       );
@@ -61,6 +72,7 @@ export class AuthService {
 
   logout(): Observable<any> {
     localStorage.clear();
+    this.userDataService.clearCurrentUser();
     this.router.navigate(['login']);
     return this.http
       .post(API_ENDPOINTS.logout, '', {
@@ -77,9 +89,13 @@ export class AuthService {
         withCredentials: true,
       })
       .pipe(
-        tap((res: SignInResponse) => {
+        switchMap((res: SignInResponse) => {
           localStorage.setItem('authenticatedUserId', res.id);
           localStorage.setItem('authenticatedUserRole', res.role);
+          return this.userService.getUser(res.id); // Fetch user details after token refresh
+        }),
+        tap((user: User) => {
+          this.userDataService.setCurrentUser(user); // Update current user data
         }),
         catchError(this.handleError('Error refreshing token'))
       );

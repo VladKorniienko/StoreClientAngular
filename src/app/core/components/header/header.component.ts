@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserBalanceDialogComponent } from '../user/user-balance-dialog/user-balance-dialog.component';
 import { NavigationEnd, Router } from '@angular/router';
+import { UserDataService } from '../../services/user-data.service';
 
 @Component({
   selector: 'app-header',
@@ -17,24 +18,19 @@ export class HeaderComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private userService: UserService,
+    private userDataService: UserDataService,
     private dialog: MatDialog,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.userService.userUpdated$.subscribe((user: User) => {
+    this.userDataService.currentUser.subscribe((user) => {
       this.currentUser = user;
     });
   }
 
   private loadCurrentUser(): void {
     const currentUserId = this.authService.getUserId();
-    if (currentUserId) {
-      this.userService.getUser(currentUserId).subscribe((user: User) => {
-        this.currentUser = user;
-        this.userService.updateUser(user); // Ensure user info is updated across the app
-      });
-    }
   }
 
   logout(): void {

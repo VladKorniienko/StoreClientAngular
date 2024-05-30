@@ -35,24 +35,14 @@ export class LoginPageComponent implements OnInit {
 
   public logIn(): void {
     if (this.signInForm.valid) {
-      this.authService
-        .signIn(this.signInForm.value)
-        .pipe(
-          switchMap((signInResponse) => {
-            // Assuming signInResponse contains user ID or relevant information
-            return this.userService.getUser(signInResponse.id);
-          })
-        )
-        .subscribe(
-          (user) => {
-            // Update user after successful login
-            this.userService.updateUser(user);
-          },
-          (error) => {
-            // Handle error
-            console.error('Error fetching user after login:', error);
-          }
-        );
+      this.authService.signIn(this.signInForm.value).subscribe({
+        next: () => {
+          // Successful login
+        },
+        error: (error) => {
+          // Handle error
+        },
+      });
     } else {
       // Handle form validation errors (e.g., show validation messages)
       console.warn('Sign-in form is not valid');

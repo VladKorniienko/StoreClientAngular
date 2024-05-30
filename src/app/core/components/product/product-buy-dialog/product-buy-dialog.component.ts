@@ -26,11 +26,6 @@ export class ProductBuyDialogComponent {
           this.snackBarService.openSnackBar(
             'You successfully purchased the product'
           );
-          this.userService
-            .getUser(this.userService.getUserId())
-            .subscribe((user: User) => {
-              this.userService.updateUser(user);
-            });
         }),
         catchError((error) => {
           console.error('Error buying product', error);
