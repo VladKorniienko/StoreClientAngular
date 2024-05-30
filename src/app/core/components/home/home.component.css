@@ -4,7 +4,12 @@
   box-shadow: 0px 0px 8px 2px rgba(20, 20, 20, 0.625);
   max-width: 100%;
 }
-
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
 mat-card {
   width: 90%;
   height: 90%;
@@ -77,12 +82,41 @@ button {
   margin-left: auto;
 }
 .actions-button {
+  border: 2px solid #3f51b5; /* Indigo color */
+
   padding: 26px;
-  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #3f51b5;
+    color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.24);
+    transform: translateY(2px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.5);
+  }
+
+  &.mat-stroked-button {
+    border-width: 2px;
+  }
 }
 mat-card-subtitle {
   font-size: large;
-  color: #3f51b5;
+  color: white;
 }
 mat-card-content {
   display: flex;

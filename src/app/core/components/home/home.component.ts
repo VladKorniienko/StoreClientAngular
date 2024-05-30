@@ -17,6 +17,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 })
 export class HomeComponent implements OnInit {
   public dataToDisplay: Product[] = [];
+  public isLoading: boolean = true;
 
   constructor(public prodService: ProductsService, private dialog: MatDialog) {}
 
@@ -25,9 +26,17 @@ export class HomeComponent implements OnInit {
   }
 
   private loadProducts(): void {
-    this.prodService.getProducts().subscribe((products: Product[]) => {
-      this.dataToDisplay = products;
-    });
+    this.isLoading = true; // Set isLoading to true before the request starts
+    this.prodService.getProducts().subscribe(
+      (products: Product[]) => {
+        this.dataToDisplay = products;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error loading products', error);
+        this.isLoading = false; // Set isLoading to false in case of an error
+      }
+    );
   }
 
   public openInfoDialog(product: Product): void {

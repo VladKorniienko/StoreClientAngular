@@ -22,6 +22,7 @@ export class AdminPanelProductComponent implements OnInit {
     'genre',
     'actions',
   ];
+  public isLoading: boolean = true;
   public dataSource: MatTableDataSource<Product> =
     new MatTableDataSource<Product>();
 
@@ -61,9 +62,17 @@ export class AdminPanelProductComponent implements OnInit {
   }
 
   private loadProducts(): void {
-    this.productService.getProducts().subscribe((products) => {
-      this.dataSource.data = products;
-      this.dataSource.paginator = this.paginator;
-    });
+    this.isLoading = true;
+    this.productService.getProducts().subscribe(
+      (products) => {
+        this.dataSource.data = products;
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error loading products', error);
+        this.isLoading = false; // Set isLoading to false in case of an error
+      }
+    );
   }
 }

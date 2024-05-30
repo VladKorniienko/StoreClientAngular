@@ -12,3 +12,9 @@ mat-paginator {
   border-radius: 10px; /* Adjust the radius value as needed */
   overflow: hidden; /* Prevents overflow outside the rounded corners */
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}

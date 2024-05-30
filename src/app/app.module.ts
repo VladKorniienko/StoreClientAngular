@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductInfoDialogComponent } from './core/components/product/product-info-dialog/product-info-dialog.component';
 import { ProductBuyDialogComponent } from './core/components/product/product-buy-dialog/product-buy-dialog.component';
@@ -73,6 +74,7 @@ import { UserBalanceDialogComponent } from './core/components/user/user-balance-
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     MatExpansionModule,
     MatListModule,
     MatFormFieldModule,
