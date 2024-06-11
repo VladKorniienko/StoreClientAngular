@@ -1,23 +1,46 @@
 .example-header-image {
+  background-position: center;
   background-size: cover;
-  box-shadow: 0px 0px 10px 5px rgb(71, 71, 177);
+  box-shadow: 0px 0px 8px 2px rgba(20, 20, 20, 0.625);
   max-width: 100%;
 }
-
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
 mat-card {
-  width: 18rem;
+  width: 90%;
+  height: 90%;
   transition: all 0.5s ease 0s;
-  box-shadow: 0px 0px 15px 2px rgba(20, 20, 20, 0.625);
+  box-sizing: border-box;
+}
+mat-card-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden; /* Ensure content does not overflow */
+}
+.truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Ensure it does not exceed the parent container */
 }
 
 mat-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
+
+  box-shadow: 0px 0px 10px 1px #3f51b5;
 }
 
 .card-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
+  justify-content: flex-end; /* Distribute items along the main axis with space between them */
+  align-items: center; /* Center items vertically */
+  padding: 16px;
 }
 
 button {
@@ -30,6 +53,76 @@ button {
 
 @media (max-width: 768px) {
   mat-card {
-    width: 100%;
+    width: 95%;
   }
+}
+
+.title-container {
+  flex: 1;
+  padding-left: 16px; /* Adjust padding as needed */
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 16px; /* Adjust padding as needed */
+}
+.card-content {
+  padding: 16px;
+  flex: 1; /* Allow the content to grow and fill the available space */
+  overflow: hidden; /* Hide any content that overflows */
+  text-overflow: ellipsis; /* Truncate text with an ellipsis when it overflows */
+  white-space: normal; /* Prevent text from wrapping to the next line */
+  padding-right: 16px; /* Add some padding to ensure space between content and border */
+}
+
+.price {
+  letter-spacing: -0.5px;
+  margin-left: auto;
+}
+.actions-button {
+  border: 2px solid #3f51b5; /* Indigo color */
+
+  padding: 26px;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #3f51b5;
+    color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.24);
+    transform: translateY(2px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.5);
+  }
+
+  &.mat-stroked-button {
+    border-width: 2px;
+  }
+}
+mat-card-subtitle {
+  font-size: large;
+  color: white;
+}
+mat-card-content {
+  display: flex;
+  justify-content: flex-start;
+}
+mat-chip {
+  width: fit-content;
+  margin-right: 8px; /* Space between chips */
 }

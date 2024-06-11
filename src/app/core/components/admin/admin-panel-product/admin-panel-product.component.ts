@@ -42,8 +42,6 @@ export class AdminPanelProductComponent implements OnInit {
   openEditProductDialog(product: Product): void {
     const dialogRef = this.dialog.open(ProductEditDialogComponent, {
       data: product,
-      height: '800px',
-      width: '800px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -79,8 +77,6 @@ export class AdminPanelProductComponent implements OnInit {
   public openAddProductDialog(productService: ProductsService): void {
     this.dialog.open(ProductAddDialogComponent, {
       data: productService,
-      height: '800px',
-      width: '800px',
     });
   }
 }

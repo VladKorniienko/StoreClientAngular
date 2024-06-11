@@ -40,7 +40,6 @@ export class HeaderComponent implements OnInit {
   openEditBalanceDialog(): void {
     const dialogRef = this.dialog.open(UserBalanceDialogComponent, {
       data: this.currentUser,
-      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe((result: number | undefined) => {

@@ -42,16 +42,12 @@ export class HomeComponent implements OnInit {
   public openInfoDialog(product: Product): void {
     this.dialog.open(ProductInfoDialogComponent, {
       data: product,
-      height: '800px',
-      width: '800px',
     });
   }
 
   public openBuyDialog(product: Product): void {
     this.dialog.open(ProductBuyDialogComponent, {
       data: product,
-      height: '800px',
-      width: '800px',
     });
   }
 }

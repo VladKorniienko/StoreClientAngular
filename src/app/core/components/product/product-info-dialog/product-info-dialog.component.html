@@ -1,21 +1,22 @@
-<h1 mat-dialog-title class="title">{{ data.name }}</h1>
+<h2 mat-dialog-title class="title">{{ data.name }}</h2>
+<mat-divider></mat-divider>
 <mat-dialog-content class="mat-typography">
   <mat-list>
     <mat-list-item>
-      <span matListItemTitle class="header-list">Price</span>
-      <span matListItemLine>{{ data.priceUSD }}</span>
+      <div matLine class="header-list">Price</div>
+      <div matLine>{{ data.priceUSD }}</div>
     </mat-list-item>
     <mat-list-item>
-      <span matListItemTitle class="header-list">Category</span>
-      <span>{{ data.category.name }}</span>
+      <div matLine class="header-list">Category</div>
+      <div matLine>{{ data.category.name }}</div>
     </mat-list-item>
     <mat-list-item>
-      <span matListItemTitle class="header-list">Genre</span>
-      <span>{{ data.genre.name }}</span>
+      <div matLine class="header-list">Genre</div>
+      <div matLine>{{ data.genre.name }}</div>
     </mat-list-item>
     <mat-list-item>
-      <span matListItemTitle class="header-list">Description</span>
-      <span>{{ data.description }}</span>
+      <div matLine class="header-list">Description</div>
+      <div matLine>{{ data.description }}</div>
     </mat-list-item>
   </mat-list>
   <div class="carousel-container">
@@ -44,7 +45,7 @@
     </button>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="center">
   <button mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
