@@ -46,10 +46,11 @@ export class AdminPanelProductComponent implements OnInit {
   openEditProductDialog(product: Product): void {
     const dialogRef = this.dialog.open(ProductEditDialogComponent, {
       data: product,
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+      if (result === true) {
         this.loadProducts(
           this.paginator.pageIndex + 1,
           this.paginator.pageSize
@@ -86,6 +87,7 @@ export class AdminPanelProductComponent implements OnInit {
   public openAddProductDialog(productService: ProductsService): void {
     const dialogRef = this.dialog.open(ProductAddDialogComponent, {
       data: productService,
+      width: '500px',
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

@@ -21,6 +21,8 @@ export class ProductAddDialogComponent implements OnInit {
   public genres: Genre[] = [];
   public categories: Category[] = [];
   public screenshotsFiles: File[] = [];
+  public isIconSelected = false;
+  public isScreenshotSelected = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -62,6 +64,7 @@ export class ProductAddDialogComponent implements OnInit {
   public onIconSelected(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
+      this.isIconSelected = true;
       this.addProductForm.get('icon')?.setValue(file);
     }
   }
@@ -71,6 +74,7 @@ export class ProductAddDialogComponent implements OnInit {
       for (let i = 0; i < event.target.files.length; i++) {
         const file = event.target.files[i];
         this.screenshotsFiles.push(file);
+        this.isScreenshotSelected = true;
       }
     }
   }

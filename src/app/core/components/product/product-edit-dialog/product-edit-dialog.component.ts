@@ -18,6 +18,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 })
 export class ProductEditDialogComponent implements OnInit {
   public editProductForm: FormGroup;
+  public isLoading: boolean = false;
   public genres: Genre[] = [];
   public categories: Category[] = [];
   public screenshotsFiles: File[] = [];
@@ -150,21 +151,25 @@ export class ProductEditDialogComponent implements OnInit {
     for (let file of this.screenshotsFiles) {
       formData.append('Screenshots', file, file.name);
     }
+    this.isLoading = true;
     this.prodService
       .changeProduct(formData, this.editProductForm.get('id')!.value)
       .subscribe({
         next: () => {
           this.snackBarService.openSnackBar('Product has been edited');
           this.dialogRef.close(true);
+          this.isLoading = false;
         },
         error: (err) => {
           console.error('Error editing product', err);
           this.snackBarService.openSnackBar('Something went wrong');
           this.closeDialog();
+          this.isLoading = false;
         },
       });
   }
   closeDialog(): void {
     this.dialogRef.close(false); // Close without a result if the product hasn't changed
+    this.isLoading = false;
   }
 }
