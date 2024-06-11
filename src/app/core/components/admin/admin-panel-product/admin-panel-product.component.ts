@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '@shared/models/Product/product';
@@ -23,6 +23,7 @@ export class AdminPanelProductComponent implements OnInit {
     'genre',
     'actions',
   ];
+  paginationData: any = {};
   public isLoading: boolean = true;
   public dataSource: MatTableDataSource<Product> =
     new MatTableDataSource<Product>();
@@ -39,6 +40,9 @@ export class AdminPanelProductComponent implements OnInit {
     this.loadProducts();
   }
 
+  handlePageEvent(e: PageEvent) {
+    this.loadProducts(this.paginator.pageIndex + 1, this.paginator.pageSize);
+  }
   openEditProductDialog(product: Product): void {
     const dialogRef = this.dialog.open(ProductEditDialogComponent, {
       data: product,
@@ -46,7 +50,10 @@ export class AdminPanelProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadProducts();
+        this.loadProducts(
+          this.paginator.pageIndex + 1,
+          this.paginator.pageSize
+        );
       }
     });
   }
@@ -56,15 +63,17 @@ export class AdminPanelProductComponent implements OnInit {
       this.snackBarService.openSnackBar(
         `Product ${product.name} has been successfully deleted.`
       );
-      this.loadProducts(); // Reload products after deletion
+      this.loadProducts(this.paginator.pageIndex + 1, this.paginator.pageSize);
     });
   }
 
-  private loadProducts(): void {
+  private loadProducts(pageNumber: number = 1, pageSize: number = 10): void {
     this.isLoading = true;
-    this.productService.getProducts().subscribe(
-      (products) => {
-        this.dataSource.data = products;
+    this.productService.getProducts(pageNumber, pageSize).subscribe(
+      (data) => {
+        this.dataSource.data = data.products;
+        this.paginationData = data.pagination;
+
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
       },
@@ -75,8 +84,16 @@ export class AdminPanelProductComponent implements OnInit {
     );
   }
   public openAddProductDialog(productService: ProductsService): void {
-    this.dialog.open(ProductAddDialogComponent, {
+    const dialogRef = this.dialog.open(ProductAddDialogComponent, {
       data: productService,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadProducts(
+          this.paginator.pageIndex + 1,
+          this.paginator.pageSize
+        );
+      }
     });
   }
 }

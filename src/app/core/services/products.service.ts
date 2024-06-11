@@ -5,6 +5,7 @@ import {
   HttpClient,
   HttpHeaders,
   HttpErrorResponse,
+  HttpResponse,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Product } from '@shared/models/Product/product';
@@ -19,12 +20,24 @@ export class ProductsService {
   constructor(private http: HttpClient, private router: Router) {}
 
   // Get all Products
-  getProducts(): Observable<Product[]> {
+  getProducts(
+    pageNumber: number = 1,
+    pageSize: number = 10
+  ): Observable<{ products: Product[]; pagination: any }> {
     return this.http
-      .get<Product[]>(API_ENDPOINTS.products, { headers: this.headers })
+      .get<Product[]>(API_ENDPOINTS.products, {
+        headers: this.headers,
+        params: {
+          pageNumber: pageNumber.toString(),
+          pageSize: pageSize.toString(),
+        },
+        observe: 'response',
+      })
       .pipe(
-        map((products: Product[]) =>
-          products.map(
+        map((response: HttpResponse<Product[]>) => {
+          const products: Product[] = response.body ?? [];
+
+          const mappedProducts = products.map(
             (product) =>
               new Product(
                 product.id,
@@ -36,8 +49,18 @@ export class ProductsService {
                 product.icon,
                 product.screenshots
               )
-          )
-        ),
+          );
+
+          // Extract pagination headers
+          const pagination = {
+            totalCount: response.headers.get('total-count'),
+            totalPages: response.headers.get('total-pages'),
+            currentPage: response.headers.get('current-page'),
+            pageSize: response.headers.get('page-size'),
+          };
+
+          return { products: mappedProducts, pagination };
+        }),
         catchError(this.handleError)
       );
   }

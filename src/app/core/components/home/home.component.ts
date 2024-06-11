@@ -1,14 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { Product } from '@shared/models/Product/product';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductInfoDialogComponent } from '../product/product-info-dialog/product-info-dialog.component';
 import { ProductBuyDialogComponent } from '../product/product-buy-dialog/product-buy-dialog.component';
-import { ProductAddDialogComponent } from '../product/product-add-dialog/product-add-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarService } from '../../services/snackbar.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home',
@@ -18,23 +14,28 @@ import { SnackbarService } from '../../services/snackbar.service';
 export class HomeComponent implements OnInit {
   public dataToDisplay: Product[] = [];
   public isLoading: boolean = true;
-
+  paginationData: any = {};
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(public prodService: ProductsService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadProducts();
   }
+  handlePageEvent(e: PageEvent) {
+    this.loadProducts(this.paginator.pageIndex + 1, this.paginator.pageSize);
+  }
 
-  private loadProducts(): void {
+  private loadProducts(pageNumber: number = 1, pageSize: number = 12): void {
     this.isLoading = true; // Set isLoading to true before the request starts
-    this.prodService.getProducts().subscribe(
-      (products: Product[]) => {
-        this.dataToDisplay = products;
+    this.prodService.getProducts(pageNumber, pageSize).subscribe(
+      (data) => {
+        this.dataToDisplay = data.products;
+        this.paginationData = data.pagination;
         this.isLoading = false;
       },
       (error) => {
         console.error('Error loading products', error);
-        this.isLoading = false; // Set isLoading to false in case of an error
+        this.isLoading = false;
       }
     );
   }

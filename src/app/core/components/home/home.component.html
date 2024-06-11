@@ -5,6 +5,16 @@
   ></mat-progress-spinner>
 </div>
 <div *ngIf="!isLoading">
+  <mat-paginator
+    #paginator
+    (page)="handlePageEvent($event)"
+    [length]="paginationData.totalCount"
+    [pageIndex]="paginationData.currentPage - 1"
+    [pageSize]="paginationData.pageSize"
+    [pageSizeOptions]="[4, 12, 24, 36, 48]"
+    showFirstLastButtons
+  >
+  </mat-paginator>
   <mat-grid-list cols="4" rowHeight="1.5:1" [gutterSize]="'12px'">
     <mat-grid-tile *ngFor="let data of dataToDisplay">
       <mat-card>

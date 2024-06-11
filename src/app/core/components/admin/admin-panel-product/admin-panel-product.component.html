@@ -60,7 +60,11 @@
   </table>
   <mat-paginator
     #paginator
-    [pageSizeOptions]="[5, 15, 30]"
+    (page)="handlePageEvent($event)"
+    [length]="paginationData.totalCount"
+    [pageIndex]="paginationData.currentPage - 1"
+    [pageSize]="paginationData.pageSize"
+    [pageSizeOptions]="[10, 20, 30, 50]"
     showFirstLastButtons
   ></mat-paginator>
 </div>

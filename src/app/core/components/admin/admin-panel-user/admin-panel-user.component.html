@@ -32,7 +32,7 @@
           <span>Grant admin rights</span>
         </button>
         <button mat-menu-item (click)="revokeAdmin(element)">
-          <mat-icon>cancel</mat-icon>
+          <mat-icon color="warn">cancel</mat-icon>
           <span>Revoke admin rights</span>
         </button>
       </mat-menu>
@@ -46,7 +46,7 @@
       </button>
       <button
         mat-icon-button
-        color="accent"
+        color="warn"
         aria-label="Delete user's account"
         matTooltip="Delete"
         (click)="deleteUser(element)"
