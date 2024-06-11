@@ -5,6 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { User } from '@shared/models/User/user';
 import { catchError, of, tap } from 'rxjs';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-product-buy-dialog',
@@ -15,6 +16,7 @@ export class ProductBuyDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Product,
     private userService: UserService,
+    public userDataService: UserDataService,
     private snackBarService: SnackbarService
   ) {}
 
@@ -23,6 +25,16 @@ export class ProductBuyDialogComponent {
       .buyProductForUser(this.data.id)
       .pipe(
         tap(() => {
+          this.userService
+            .getUser(this.userDataService.getCurrentUser().id)
+            .subscribe(
+              (updatedUser: User) => {
+                this.userDataService.setCurrentUser(updatedUser);
+              },
+              (error) => {
+                console.error('Error fetching user:', error);
+              }
+            );
           this.snackBarService.openSnackBar(
             'You successfully purchased the product'
           );

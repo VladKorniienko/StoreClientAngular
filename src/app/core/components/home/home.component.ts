@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     this.loadProducts(this.paginator.pageIndex + 1, this.paginator.pageSize);
   }
 
-  private loadProducts(pageNumber: number = 1, pageSize: number = 12): void {
+  private loadProducts(pageNumber: number = 1, pageSize: number = 4): void {
     this.isLoading = true; // Set isLoading to true before the request starts
     this.prodService.getProducts(pageNumber, pageSize).subscribe(
       (data) => {
@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   public openInfoDialog(product: Product): void {
     this.dialog.open(ProductInfoDialogComponent, {
       data: product,
+      width: '1000px',
     });
   }
 

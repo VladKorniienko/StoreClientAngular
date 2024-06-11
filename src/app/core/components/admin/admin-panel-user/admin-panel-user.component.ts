@@ -8,6 +8,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { UserEditDialogComponent } from '../../user/user-edit-dialog/user-edit-dialog.component';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-admin-panel-user',
@@ -27,6 +28,7 @@ export class AdminPanelUserComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     public userService: UserService,
+    public userDataService: UserDataService,
     public dialog: MatDialog,
     private snackBarService: SnackbarService
   ) {}
@@ -38,12 +40,21 @@ export class AdminPanelUserComponent implements OnInit {
   openEditUserDialog(user: User): void {
     const dialogRef = this.dialog.open(UserEditDialogComponent, {
       data: user,
-      height: '600px',
-      width: '800px',
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        if (user.id === this.userDataService.getCurrentUser().id) {
+          this.userService.getUser(user.id).subscribe(
+            (updatedUser: User) => {
+              this.userDataService.setCurrentUser(updatedUser);
+            },
+            (error) => {
+              console.error('Error fetching user:', error);
+            }
+          );
+        }
         this.loadUsers();
       }
     });

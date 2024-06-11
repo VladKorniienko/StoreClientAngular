@@ -1,24 +1,24 @@
-<h2 mat-dialog-title class="title">{{ data.name }}</h2>
-<mat-divider></mat-divider>
-<mat-dialog-content class="mat-typography">
-  <mat-list>
-    <mat-list-item>
-      <div matLine class="header-list">Price</div>
-      <div matLine>{{ data.priceUSD }}</div>
-    </mat-list-item>
-    <mat-list-item>
-      <div matLine class="header-list">Category</div>
-      <div matLine>{{ data.category.name }}</div>
-    </mat-list-item>
-    <mat-list-item>
-      <div matLine class="header-list">Genre</div>
-      <div matLine>{{ data.genre.name }}</div>
-    </mat-list-item>
-    <mat-list-item>
-      <div matLine class="header-list">Description</div>
-      <div matLine>{{ data.description }}</div>
-    </mat-list-item>
-  </mat-list>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-header class="card-header">
+      <div
+        mat-card-avatar
+        class="example-header-image"
+        [style.background-image]="
+          'url(data:image/jpeg;base64,' + data.icon + ')'
+        "
+      ></div>
+      <div class="title-container">
+        <mat-card-title>{{ data.name }}</mat-card-title>
+        <mat-card-subtitle>$&nbsp;{{ data.priceUSD }}</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Category: {{ data.category.name }}</p>
+      <p>Genre: {{ data.genre.name }}</p>
+      <p>Description: {{ data.description }}</p>
+    </mat-card-content>
+  </mat-card>
   <div class="carousel-container">
     <button
       mat-icon-button

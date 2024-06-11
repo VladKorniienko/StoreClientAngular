@@ -13,7 +13,7 @@ import { UserDataService } from '../../services/user-data.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  currentUser: User = new User();
+  userInfo: User = new User();
 
   constructor(
     public authService: AuthService,
@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.userDataService.currentUser.subscribe((user) => {
-      this.currentUser = user;
+      this.userInfo = user;
     });
   }
 
@@ -39,13 +39,13 @@ export class HeaderComponent implements OnInit {
 
   openEditBalanceDialog(): void {
     const dialogRef = this.dialog.open(UserBalanceDialogComponent, {
-      data: this.currentUser,
+      data: this.userInfo,
     });
 
     dialogRef.afterClosed().subscribe((result: number | undefined) => {
       if (result !== undefined) {
         // Ensure result is not undefined (if the user canceled the dialog)
-        this.currentUser.balance = result;
+        this.userInfo.balance = result;
       }
     });
   }

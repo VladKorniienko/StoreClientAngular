@@ -12,7 +12,7 @@
       mat-button
       class="nav-button"
       *ngIf="authService.isLoggedIn"
-      [routerLink]="'/users/' + currentUser.id"
+      [routerLink]="'/users/' + userInfo.id"
       routerLinkActive="active-link"
     >
       <mat-icon>person</mat-icon>Profile
@@ -53,7 +53,7 @@
       (click)="openEditBalanceDialog()"
     >
       <mat-icon>wallet</mat-icon>
-      {{ currentUser.balance }} $&nbsp;
+      {{ userInfo.balance }} $&nbsp;
     </button>
     <button
       class="logout-button"
