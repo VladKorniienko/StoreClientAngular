@@ -15,6 +15,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
+  public isLoading: boolean = true;
   editForm!: FormGroup;
   currentUser: User = new User();
   changePasswordForm!: FormGroup;
@@ -42,6 +43,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadUserData() {
+    this.isLoading = true;
     this.userDataService.currentUser.subscribe({
       next: (user: User | null) => {
         if (user) {
@@ -55,8 +57,10 @@ export class UserProfileComponent implements OnInit {
                   email: this.currentUser.email,
                   balance: this.currentUser.balance,
                 });
+                this.isLoading = false;
               }),
               catchError((err) => {
+                this.isLoading = false;
                 this.snackbarService.openSnackBar(
                   'Something went wrong! Try to log in again to display your data!'
                 );
@@ -67,6 +71,7 @@ export class UserProfileComponent implements OnInit {
         }
       },
       error: () => {
+        this.isLoading = false;
         this.snackbarService.openSnackBar(
           'Something went wrong! Try to log in again to display your data!'
         );

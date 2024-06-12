@@ -1,5 +1,8 @@
 .example-card {
-  max-width: 150px;
+  width: 200px;
+  margin-bottom: 16px; /* Add space below each card to prevent overlap */
+  display: flex;
+  flex-direction: column;
 }
 .spinner-container {
   display: flex;
@@ -26,4 +29,45 @@
 .dialog-actions {
   display: flex;
   justify-content: center;
+}
+
+.file-upload-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+.file-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+.screenshots-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Optional: Add space between cards */
+  margin-top: 16px; /* Optional: Add space above the container */
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+mat-card-header {
+  color: white;
+}
+.image-container {
+  flex-grow: 1; /* Let the image take up remaining vertical space */
+  object-fit: contain; /* Ensure the image maintains aspect ratio */
 }

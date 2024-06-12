@@ -16,6 +16,7 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   styleUrls: ['./admin-panel-user.component.css'],
 })
 export class AdminPanelUserComponent implements OnInit {
+  public isLoading: boolean = true;
   public columnsToDisplay: string[] = [
     'userName',
     'email',
@@ -100,9 +101,11 @@ export class AdminPanelUserComponent implements OnInit {
   }
 
   private loadUsers(): void {
+    this.isLoading = true;
     this.userService.getUsers().subscribe((users) => {
       this.dataSource.data = users;
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 }

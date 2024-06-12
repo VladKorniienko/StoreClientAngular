@@ -1,50 +1,57 @@
-<mat-card>
-  <mat-card-title class="center-text">USER PROFILE</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="editForm">
-      <p>
-        <mat-form-field class="login-form-child" appearance="outline">
-          <mat-label>EMAIL</mat-label>
-          <input
-            matInput
-            type="email"
-            formControlName="email"
-            aria-label="EMAIL"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            class="edit-button"
-            (click)="enableUserInfoEdit('email')"
-            matTooltip="Edit"
-          >
-            <mat-icon>mode_edit</mat-icon>
-          </button>
-          <mat-error>Please enter a valid email</mat-error>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field class="login-form-child" appearance="outline">
-          <mat-label>USERNAME</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="username"
-            aria-label="USERNAME"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            class="edit-button"
-            (click)="enableUserInfoEdit('username')"
-            matTooltip="Edit"
-          >
-            <mat-icon>mode_edit</mat-icon>
-          </button>
-          <mat-error>Please enter a valid username</mat-error>
-        </mat-form-field>
-      </p>
-      <!--
+<div *ngIf="isLoading" class="spinner-container">
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-spinner>
+</div>
+<div *ngIf="!isLoading">
+  <mat-card>
+    <mat-card-title class="center-text">User profile</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="editForm">
+        <p>
+          <mat-form-field class="login-form-child" appearance="outline">
+            <mat-label>EMAIL</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              aria-label="EMAIL"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              class="edit-button"
+              (click)="enableUserInfoEdit('email')"
+              matTooltip="Edit"
+            >
+              <mat-icon>mode_edit</mat-icon>
+            </button>
+            <mat-error>Please enter a valid email</mat-error>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="login-form-child" appearance="outline">
+            <mat-label>USERNAME</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="username"
+              aria-label="USERNAME"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              class="edit-button"
+              (click)="enableUserInfoEdit('username')"
+              matTooltip="Edit"
+            >
+              <mat-icon>mode_edit</mat-icon>
+            </button>
+            <mat-error>Please enter a valid username</mat-error>
+          </mat-form-field>
+        </p>
+        <!--
         <p>
         <mat-form-field class="login-form-child" appearance="outline">
           <mat-label>Balance</mat-label>
@@ -65,54 +72,56 @@
           <mat-error>Please enter a valid balance</mat-error>
         </mat-form-field>
       </p>
-    --></form>
+    -->
+      </form>
 
-    <form [formGroup]="changePasswordForm">
-      <p>
-        <mat-form-field class="login-form-child" appearance="outline">
-          <mat-label>OLD PASSWORD</mat-label>
-          <input
-            matInput
-            type="password"
-            formControlName="oldPasswordInput"
-            aria-label="OLD PASSWORD"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            class="edit-button"
-            (click)="enablePasswordEdit()"
-            matTooltip="Edit"
-          >
-            <mat-icon>mode_edit</mat-icon>
-          </button>
-          <mat-error>Please enter your old password</mat-error>
-        </mat-form-field>
-      </p>
-      <p *ngIf="isPasswordEditing">
-        <mat-form-field class="login-form-child" appearance="outline">
-          <mat-label>NEW PASSWORD</mat-label>
-          <input
-            matInput
-            type="password"
-            formControlName="newPasswordInput"
-            aria-label="NEW PASSWORD"
-            required
-          />
-          <mat-error>Please enter your new password</mat-error>
-        </mat-form-field>
-      </p>
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <button
-      mat-raised-button
-      *ngIf="isUserInfoEditing || isPasswordEditing"
-      color="primary"
-      (click)="saveEdits()"
-      matTooltip="Confirm"
-    >
-      SAVE
-    </button>
-  </mat-card-actions>
-</mat-card>
+      <form [formGroup]="changePasswordForm">
+        <p>
+          <mat-form-field class="login-form-child" appearance="outline">
+            <mat-label>OLD PASSWORD</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="oldPasswordInput"
+              aria-label="OLD PASSWORD"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              class="edit-button"
+              (click)="enablePasswordEdit()"
+              matTooltip="Edit"
+            >
+              <mat-icon>mode_edit</mat-icon>
+            </button>
+            <mat-error>Please enter your old password</mat-error>
+          </mat-form-field>
+        </p>
+        <p *ngIf="isPasswordEditing">
+          <mat-form-field class="login-form-child" appearance="outline">
+            <mat-label>NEW PASSWORD</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="newPasswordInput"
+              aria-label="NEW PASSWORD"
+              required
+            />
+            <mat-error>Please enter your new password</mat-error>
+          </mat-form-field>
+        </p>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        *ngIf="isUserInfoEditing || isPasswordEditing"
+        color="primary"
+        (click)="saveEdits()"
+        matTooltip="Confirm"
+      >
+        SAVE
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

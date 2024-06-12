@@ -8,92 +8,107 @@
   <h2 mat-dialog-title class="dialog-title">Edit</h2>
   <mat-dialog-content class="mat-typography dialog-content">
     <form [formGroup]="editProductForm">
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Name</mat-label>
-          <input matInput type="text" formControlName="name" />
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Price</mat-label>
-          <input matInput type="number" formControlName="priceUSD" />
-          <span matTextPrefix>$&nbsp;</span>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Genre</mat-label>
-          <mat-select formControlName="genre">
-            <mat-option
-              *ngFor="let genreInfo of genres"
-              [value]="genreInfo.id"
-              >{{ genreInfo.name }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Category</mat-label>
-          <mat-select formControlName="category">
-            <mat-option
-              *ngFor="let categoryInfo of categories"
-              [value]="categoryInfo.id"
-              >{{ categoryInfo.name }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Description</mat-label>
-          <textarea
-            matInput
-            type="text"
-            formControlName="description"
-          ></textarea>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-card class="example-card">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="priceUSD" />
+        <span matTextPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Genre</mat-label>
+        <mat-select formControlName="genre">
+          <mat-option *ngFor="let genreInfo of genres" [value]="genreInfo.id">{{
+            genreInfo.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option
+            *ngFor="let categoryInfo of categories"
+            [value]="categoryInfo.id"
+            >{{ categoryInfo.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput type="text" formControlName="description"></textarea>
+      </mat-form-field>
+
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Icon</mat-card-title>
+        </mat-card-header>
+
+        <img mat-card-image [src]="'data:image/jpeg;base64,' + iconString" />
+
+        <mat-card-actions class="actions">
+          <input
+            type="file"
+            (change)="onIconSelected($event)"
+            formControlName="icon"
+            #fileInput
+            style="display: none"
+          />
+          <button
+            mat-button
+            (click)="fileInput.click()"
+            matTooltip="Select a new icon"
+          >
+            CHANGE
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <div class="screenshots-container">
+        <mat-card
+          *ngFor="let screenshot of screenshotsStrings; let i = index"
+          class="example-card"
+        >
           <mat-card-header>
-            <mat-card-title>Icon</mat-card-title>
+            <mat-card-title>Screenshot {{ i + 1 }}</mat-card-title>
           </mat-card-header>
-          <img mat-card-image [src]="'data:image/jpeg;base64,' + iconString" />
-          <mat-card-actions>
-            <input
-              type="file"
-              (change)="onIconSelected($event)"
-              formControlName="icon"
-              #fileInput
-              style="display: none"
-            />
-            <button mat-button (click)="fileInput.click()">CHANGE</button>
-          </mat-card-actions>
-        </mat-card>
-      </p>
-      <p *ngFor="let screenshot of screenshotsStrings; let i = index">
-        <mat-card class="example-card">
-          <mat-card-header>
-            <mat-card-title>Screenshot</mat-card-title>
-          </mat-card-header>
-          <img mat-card-image [src]="'data:image/jpeg;base64,' + screenshot" />
-          <mat-card-actions>
-            <button mat-icon-button (click)="deleteScreenshot(i)">
+          <img
+            class="image-container"
+            mat-card-image
+            [src]="'data:image/jpeg;base64,' + screenshot"
+          />
+
+          <mat-card-actions class="actions">
+            <button
+              mat-icon-button
+              (click)="deleteScreenshot(i)"
+              matTooltip="Delete"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </mat-card-actions>
         </mat-card>
-      </p>
-      <p>
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="file-upload-button"
+        matTooltip="Choose multiple screenshots"
+      >
+        Add screenshots
         <input
           type="file"
           (change)="onScreenshotsSelected($event)"
-          multiple
           formControlName="screenshots"
+          multiple
+          class="file-input"
         />
-      </p>
+      </button>
     </form>
   </mat-dialog-content>
 
