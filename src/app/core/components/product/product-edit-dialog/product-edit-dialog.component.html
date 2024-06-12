@@ -4,8 +4,9 @@
     mode="indeterminate"
   ></mat-progress-spinner>
 </div>
-<div *ngIf="!isLoading">
-  <mat-dialog-content class="mat-typography">
+<div *ngIf="!isLoading" class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Edit</h2>
+  <mat-dialog-content class="mat-typography dialog-content">
     <form [formGroup]="editProductForm">
       <p>
         <mat-form-field appearance="outline">
@@ -96,15 +97,17 @@
     </form>
   </mat-dialog-content>
 
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="dialog-actions">
     <button
-      mat-icon-button
+      mat-fab
+      color="primary"
       (click)="updateProduct()"
       [disabled]="!editProductForm.dirty"
+      matTooltip="Confirm"
     >
       <mat-icon>done</mat-icon>
     </button>
-    <button mat-icon-button (click)="closeDialog()">
+    <button mat-icon-button (click)="closeDialog()" matTooltip="Close">
       <mat-icon>close</mat-icon>
     </button>
   </mat-dialog-actions>

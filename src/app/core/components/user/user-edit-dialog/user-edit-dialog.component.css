@@ -1,14 +1,20 @@
-h3 {
-  background-color: lightgray;
-  font-weight: 800;
+.dialog-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.header-list {
-  font-weight: bold;
+.dialog-content {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ensure it takes up available space */
 }
-.title {
-  letter-spacing: 2px;
+
+.dialog-content mat-form-field {
+  width: 100%; /* Full width form fields */
 }
-mat-form-field {
-  width: 100%;
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
 }

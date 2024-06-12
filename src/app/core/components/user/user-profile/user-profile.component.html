@@ -16,6 +16,7 @@
             matSuffix
             class="edit-button"
             (click)="enableUserInfoEdit('email')"
+            matTooltip="Edit"
           >
             <mat-icon>mode_edit</mat-icon>
           </button>
@@ -36,6 +37,7 @@
             matSuffix
             class="edit-button"
             (click)="enableUserInfoEdit('username')"
+            matTooltip="Edit"
           >
             <mat-icon>mode_edit</mat-icon>
           </button>
@@ -80,6 +82,7 @@
             matSuffix
             class="edit-button"
             (click)="enablePasswordEdit()"
+            matTooltip="Edit"
           >
             <mat-icon>mode_edit</mat-icon>
           </button>
@@ -107,6 +110,7 @@
       *ngIf="isUserInfoEditing || isPasswordEditing"
       color="primary"
       (click)="saveEdits()"
+      matTooltip="Confirm"
     >
       SAVE
     </button>

@@ -25,20 +25,12 @@
   right: 10px;
 }
 
-.truncate {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%; /* Ensure it does not exceed the parent container */
-}
-
 .card-header {
   flex-wrap: nowrap;
   overflow: hidden; /* Ensure content does not overflow */
   display: flex;
   align-items: center;
-  padding: 16px; /* Adjust padding as needed */
+  padding: 10px; /* Adjust padding as needed */
 }
 .example-header-image {
   background-position: center;

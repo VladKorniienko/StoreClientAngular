@@ -1,14 +1,22 @@
-.input-field {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
+.outline-border {
+  border: 1px solid #ccc; /* Add border to the div */
+  padding: 10px; /* Add padding inside the div */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  width: 100%; /* Ensure it takes full width like mat-form-field */
+  margin-bottom: 10px; /* Add spacing between the divs */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 .file-upload-button {
   position: relative;
   overflow: hidden;
   display: inline-block;
+  width: 50%;
 }
-
+.file-upload-container {
+  display: flex;
+  align-items: center; /* Center content vertically */
+  justify-content: space-between; /* Space between the text and the button */
+}
 .file-input {
   position: absolute;
   top: 0;
@@ -23,4 +31,30 @@
   background: white;
   cursor: inherit;
   display: block;
+}
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-content {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ensure it takes up available space */
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px; /* Add spacing between form fields */
+}
+.dialog-content mat-form-field {
+  width: 100%; /* Full width form fields */
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
 }

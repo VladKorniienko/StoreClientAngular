@@ -19,6 +19,18 @@ export class ProductBuyDialogComponent {
     public userDataService: UserDataService,
     private snackBarService: SnackbarService
   ) {}
+  currentIndex = 0;
+  showNextImage() {
+    if (this.currentIndex < this.data.screenshots.length - 1) {
+      this.currentIndex++;
+    }
+  }
+
+  showPreviousImage() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    }
+  }
 
   buyProduct(): void {
     this.userService

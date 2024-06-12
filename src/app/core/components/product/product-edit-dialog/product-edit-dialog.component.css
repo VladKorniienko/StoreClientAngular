@@ -7,3 +7,23 @@
   align-items: center;
   height: 400px; /* Full viewport height */
 }
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-content {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ensure it takes up available space */
+}
+
+.dialog-content mat-form-field {
+  width: 100%; /* Full width form fields */
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+}

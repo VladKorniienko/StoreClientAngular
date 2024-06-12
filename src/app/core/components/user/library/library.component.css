@@ -22,13 +22,6 @@ mat-card-header {
   flex-wrap: nowrap;
   overflow: hidden; /* Ensure content does not overflow */
 }
-.truncate {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%; /* Ensure it does not exceed the parent container */
-}
 
 mat-card:hover {
   transform: translateY(-3px);

@@ -51,6 +51,7 @@
       mat-stroked-button
       *ngIf="authService.isLoggedIn"
       (click)="openEditBalanceDialog()"
+      matTooltip="Balance"
     >
       <mat-icon>wallet</mat-icon>
       {{ userInfo.balance }} $&nbsp;

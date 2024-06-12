@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
   public openBuyDialog(product: Product): void {
     this.dialog.open(ProductBuyDialogComponent, {
       data: product,
+      width: '1000px',
     });
   }
 }

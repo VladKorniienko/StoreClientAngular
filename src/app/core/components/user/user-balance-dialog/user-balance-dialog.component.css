@@ -1,21 +1,20 @@
-mat-dialog-content {
+.dialog-container {
   display: flex;
   flex-direction: column;
 }
 
-mat-dialog-actions {
+.dialog-content {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ensure it takes up available space */
+}
+
+.dialog-content mat-form-field {
+  width: 100%; /* Full width form fields */
+}
+
+.dialog-actions {
   display: flex;
   justify-content: center;
-}
-
-.title {
-  box-shadow: 0px 0px 10px 5px rgb(71, 71, 177);
-  letter-spacing: 2px;
-  margin-bottom: 1rem; /* Add margin to create space between title and content */
-  text-align: center;
-}
-
-mat-form-field {
-  width: 100%;
-  padding-top: 1rem;
 }

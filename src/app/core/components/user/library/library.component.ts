@@ -21,6 +21,7 @@ export class LibraryComponent implements OnInit {
   openInfoDialog(product: Product): void {
     this.dialog.open(ProductInfoDialogComponent, {
       data: product,
+      width: '1000px',
     });
   }
 

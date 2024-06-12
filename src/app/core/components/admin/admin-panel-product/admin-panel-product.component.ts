@@ -87,7 +87,7 @@ export class AdminPanelProductComponent implements OnInit {
   public openAddProductDialog(productService: ProductsService): void {
     const dialogRef = this.dialog.open(ProductAddDialogComponent, {
       data: productService,
-      width: '500px',
+      width: '800px',
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

@@ -1,27 +1,63 @@
-<h1 mat-dialog-title color="primary">{{ data.name }}</h1>
-<mat-dialog-content class="mat-typography">
-  <h3>Price</h3>
-  <p>{{ data.priceUSD }}</p>
-
-  <h3>Category</h3>
-  <p>{{ data.category.name }}</p>
-
-  <h3>Genre</h3>
-  <p>{{ data.genre.name }}</p>
-
-  <h3>Description</h3>
-  <p>{{ data.description }}</p>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-header class="card-header">
+      <div
+        mat-card-avatar
+        class="example-header-image"
+        [style.background-image]="
+          'url(data:image/jpeg;base64,' + data.icon + ')'
+        "
+      ></div>
+      <div class="title-container">
+        <mat-card-title>{{ data.name }}</mat-card-title>
+        <mat-card-subtitle>$&nbsp;{{ data.priceUSD }}</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Category: {{ data.category.name }}</p>
+      <p>Genre: {{ data.genre.name }}</p>
+      <p>Description: {{ data.description }}</p>
+    </mat-card-content>
+  </mat-card>
+  <div class="carousel-container">
+    <button
+      mat-icon-button
+      matTooltip="Previous"
+      class="nav-button prev"
+      (click)="showPreviousImage()"
+      [disabled]="currentIndex === 0"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <img
+      [src]="'data:image/jpeg;base64,' + data.screenshots[currentIndex]"
+      alt="Image carousel"
+      class="carousel-image"
+    />
+    <button
+      mat-icon-button
+      matTooltip="Next"
+      class="nav-button next"
+      (click)="showNextImage()"
+      [disabled]="currentIndex === data.screenshots.length - 1"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-icon-button mat-dialog-close>
-    <mat-icon>close</mat-icon>
-  </button>
   <button
-    mat-button
+    mat-fab
+    extended
+    color="primary"
     (click)="buyProduct()"
     [mat-dialog-close]="true"
     cdkFocusInitial
+    matTooltip="Confirm"
   >
-    Confirm purchase
+    <mat-icon>shopping_cart</mat-icon>Purchase
+  </button>
+  <button mat-icon-button mat-dialog-close matTooltip="Close">
+    <mat-icon>close</mat-icon>
   </button>
 </mat-dialog-actions>
