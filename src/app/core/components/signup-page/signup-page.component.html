@@ -71,13 +71,8 @@
   </mat-card-content>
   <a routerLink="/login">Already have an account? Log in</a>
   <mat-card-actions align="end">
-    <button
-      class="signUp-form-child button"
-      mat-raised-button
-      (click)="signUp()"
-      color="primary"
-      [disabled]="!signUpForm.valid"
-    >
+    <button class="signUp-form-child button" mat-raised-button (click)="signUp()" color="primary"
+      [disabled]="!signUpForm.valid">
       Sign up
     </button>
   </mat-card-actions>

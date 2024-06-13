@@ -35,7 +35,6 @@ export class UserProfileComponent implements OnInit {
     this.editForm = this.fb.group({
       username: [{ value: '', disabled: true }],
       email: [{ value: '', disabled: true }],
-      balance: [{ value: '', disabled: true }],
     });
   }
   ngOnInit() {
@@ -55,7 +54,6 @@ export class UserProfileComponent implements OnInit {
                 this.editForm.patchValue({
                   username: this.currentUser.userName,
                   email: this.currentUser.email,
-                  balance: this.currentUser.balance,
                 });
                 this.isLoading = false;
               }),
@@ -82,40 +80,47 @@ export class UserProfileComponent implements OnInit {
     let passwordInfo = new PasswordInfo();
     passwordInfo.oldPassword = this.changePasswordForm.value.oldPasswordInput;
     passwordInfo.newPassword = this.changePasswordForm.value.newPasswordInput;
-    /*
-    this.authService.changePassword(passwordInfo).subscribe(
-      (data) => {
-        //add mat snack
-      },
-      (error) => {
-        //add mat snack
-      }
-    );
-    */
-    console.log('pass');
+
+    this.authService
+      .changePassword(passwordInfo)
+      .pipe(
+        tap(() => {
+          this.snackbarService.openSnackBar('User has been edited');
+        }),
+        catchError((error) => {
+          console.error('Error editing user', error);
+          return [];
+        })
+      )
+      .subscribe();
+
     this.changePasswordForm.reset();
     this.changePasswordForm.get('oldPasswordInput')?.disable();
     this.changePasswordForm.get('newPasswordInput')?.disable();
     this.isPasswordEditing = false;
   }
   changeUserInfo() {
-    /*
-    this.userService.changeUserInfo(this.editForm.value).subscribe(
-      () => {
-        // Handle successful product addition
-      },
-      (error) => {
-        console.error('Error adding product', error);
-        // Handle error during product addition
-      }
-    );
-    */
+    this.currentUser.email = this.editForm.get('email')?.value;
+    this.currentUser.userName = this.editForm.get('username')?.value;
+    this.userService
+      .changeUserInfo(this.currentUser)
+      .pipe(
+        tap(() => {
+          this.snackbarService.openSnackBar('User has been edited');
+          this.loadUserData();
+        }),
+        catchError((error) => {
+          console.error('Error editing user', error);
+          this.loadUserData();
+          return [];
+        })
+      )
+      .subscribe();
+
     // Logic to save edits
-    console.log('user');
     this.isUserInfoEditing = false;
     this.editForm.get('email')?.disable();
     this.editForm.get('username')?.disable();
-    this.editForm.get('balance')?.disable();
   }
   enableUserInfoEdit(controlName: string) {
     this.editForm.get(controlName)?.enable();

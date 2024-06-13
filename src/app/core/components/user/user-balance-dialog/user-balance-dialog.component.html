@@ -13,22 +13,11 @@
   </mat-dialog-content>
 
   <mat-dialog-actions align="center" class="dialog-actions">
-    <button
-      mat-fab
-      mat-dialog-close
-      (click)="editUserBalance()"
-      [disabled]="!editUserForm.dirty"
-      color="primary"
-      matTooltip="Confirm"
-    >
+    <button mat-fab mat-dialog-close (click)="editUserBalance()" [disabled]="!editUserForm.dirty" color="primary"
+      matTooltip="Confirm">
       <mat-icon>done</mat-icon>
     </button>
-    <button
-      mat-icon-button
-      mat-dialog-close
-      (click)="closeDialog()"
-      matTooltip="Close"
-    >
+    <button mat-icon-button mat-dialog-close (click)="closeDialog()" matTooltip="Close">
       <mat-icon>close</mat-icon>
     </button>
   </mat-dialog-actions>
