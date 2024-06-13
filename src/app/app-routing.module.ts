@@ -12,7 +12,7 @@ import { roleGuard } from '@shared/guards/role.guard';
 import { AdminPanelProductComponent } from './core/components/admin/admin-panel-product/admin-panel-product.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'login',
     component: LoginPageComponent,

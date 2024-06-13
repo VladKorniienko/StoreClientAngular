@@ -53,7 +53,7 @@ export class ProductBuyDialogComponent {
         }),
         catchError((error) => {
           console.error('Error buying product', error);
-          this.snackBarService.openSnackBar(error.message);
+          this.snackBarService.openSnackBar('Insufficient balance!');
           return of(); // Return empty observable to prevent error propagation
         })
       )
