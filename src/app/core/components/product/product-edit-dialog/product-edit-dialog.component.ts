@@ -161,7 +161,6 @@ export class ProductEditDialogComponent implements OnInit {
           this.isLoading = false;
         },
         error: (err) => {
-          console.error('Error editing product', err);
           this.snackBarService.openSnackBar('Something went wrong');
           this.closeDialog();
           this.isLoading = false;

@@ -45,14 +45,13 @@
     </button>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
+<mat-dialog-actions class="dialog-actions" >
   <button
     mat-fab
     extended
     color="primary"
     (click)="buyProduct()"
     [mat-dialog-close]="true"
-    cdkFocusInitial
     matTooltip="Confirm"
   >
     <mat-icon>shopping_cart</mat-icon>Purchase
