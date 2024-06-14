@@ -39,24 +39,27 @@ export class ProductBuyDialogComponent {
         tap(() => {
           this.userService
             .getUser(this.userDataService.getCurrentUser().id)
-            .subscribe(
-              (updatedUser: User) => {
+            .subscribe({
+              next: (updatedUser: User) => {
                 this.userDataService.setCurrentUser(updatedUser);
               },
-              (error) => {
+              error: (error) => {
                 console.error('Error fetching user:', error);
-              }
-            );
+              },
+            });
           this.snackBarService.openSnackBar(
             'You successfully purchased the product'
           );
         }),
         catchError((error) => {
-          console.error('Error buying product', error);
-          this.snackBarService.openSnackBar('Insufficient balance!');
+          let errorMessage = 'An error occurred!';
+          if (error.error && error.error.error) {
+            errorMessage = error.error.error;
+          }
+          this.snackBarService.openSnackBar(errorMessage);
           return of(); // Return empty observable to prevent error propagation
         })
       )
-      .subscribe(); // Subscribe to execute the observable
+      .subscribe();
   }
 }
