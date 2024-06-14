@@ -31,11 +31,9 @@ export class AuthService {
   ) {}
 
   register(userToRegister: UserRegister): Observable<User> {
-    return this.http
-      .post<User>(API_ENDPOINTS.register, userToRegister, {
-        headers: this.headers,
-      })
-      .pipe(catchError(this.errorHandler));
+    return this.http.post<User>(API_ENDPOINTS.register, userToRegister, {
+      headers: this.headers,
+    });
   }
 
   signIn(userToLogin: UserLogin): Observable<SignInResponse> {
@@ -53,8 +51,7 @@ export class AuthService {
         tap((user: User) => {
           this.userDataService.setCurrentUser(user); // Update current user data
           this.router.navigate(['users', user.id]);
-        }),
-        catchError(this.handleError('Login failed'))
+        })
       );
   }
 
@@ -74,12 +71,10 @@ export class AuthService {
     localStorage.clear();
     this.userDataService.clearCurrentUser();
     this.router.navigate(['login']);
-    return this.http
-      .post(API_ENDPOINTS.logout, '', {
-        headers: this.headers,
-        withCredentials: true,
-      })
-      .pipe(catchError(this.errorHandler));
+    return this.http.post(API_ENDPOINTS.logout, '', {
+      headers: this.headers,
+      withCredentials: true,
+    });
   }
 
   refreshToken(): Observable<SignInResponse> {
@@ -96,34 +91,14 @@ export class AuthService {
         }),
         tap((user: User) => {
           this.userDataService.setCurrentUser(user); // Update current user data
-        }),
-        catchError(this.handleError('Error refreshing token'))
+        })
       );
   }
 
   changePassword(passwordInfo: PasswordInfo): Observable<any> {
-    return this.http
-      .put(API_ENDPOINTS.changePassword, passwordInfo, {
-        headers: this.headers,
-        withCredentials: true,
-      })
-      .pipe(catchError(this.errorHandler));
-  }
-
-  private errorHandler(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
-  }
-
-  private handleError(message: string) {
-    return (error: any): Observable<never> => {
-      console.error(message, error);
-      return throwError(error);
-    };
+    return this.http.put(API_ENDPOINTS.changePassword, passwordInfo, {
+      headers: this.headers,
+      withCredentials: true,
+    });
   }
 }

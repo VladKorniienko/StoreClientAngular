@@ -60,38 +60,22 @@ export class ProductsService {
           };
 
           return { products: mappedProducts, pagination };
-        }),
-        catchError(this.handleError)
+        })
       );
   }
 
   // Post Product
   addProduct(product: any): Observable<any> {
-    return this.http
-      .post<any>(API_ENDPOINTS.products, product)
-      .pipe(catchError(this.handleError));
+    return this.http.post<any>(API_ENDPOINTS.products, product);
   }
 
   // Update Product
   changeProduct(product: any, productId: string): Observable<any> {
-    return this.http
-      .put<any>(API_ENDPOINTS.productsWithId(productId), product)
-      .pipe(catchError(this.handleError));
+    return this.http.put<any>(API_ENDPOINTS.productsWithId(productId), product);
   }
 
   // Delete Product
   deleteProduct(productId: string): Observable<void> {
-    return this.http
-      .delete<void>(API_ENDPOINTS.productsWithId(productId))
-      .pipe(catchError(this.handleError));
-  }
-
-  // Error handling
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    const errorMsg =
-      error.error instanceof ErrorEvent
-        ? error.error.message
-        : `Error Code: ${error.status}\nMessage: ${error.message}`;
-    return throwError(() => new Error(errorMsg));
+    return this.http.delete<void>(API_ENDPOINTS.productsWithId(productId));
   }
 }

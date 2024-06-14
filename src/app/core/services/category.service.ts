@@ -20,25 +20,13 @@ export class CategoryService {
 
   // Get all categories
   getCategories(): Observable<Category[]> {
-    return this.http
-      .get<Category[]>(API_ENDPOINTS.categories, { headers: this.headers })
-      .pipe(catchError(this.handleError));
+    return this.http.get<Category[]>(API_ENDPOINTS.categories, {
+      headers: this.headers,
+    });
   }
 
   // Post product
   addProduct(product: any): Observable<any> {
-    return this.http
-      .post(API_ENDPOINTS.products, product)
-      .pipe(catchError(this.handleError));
-  }
-
-  // Error handling
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    const errorMsg =
-      error.error instanceof ErrorEvent
-        ? error.error.message
-        : `Error Code: ${error.status}\nMessage: ${error.message}`;
-
-    return throwError(() => new Error(errorMsg));
+    return this.http.post(API_ENDPOINTS.products, product);
   }
 }
