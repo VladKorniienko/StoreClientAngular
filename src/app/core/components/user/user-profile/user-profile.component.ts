@@ -110,7 +110,11 @@ export class UserProfileComponent implements OnInit {
           this.loadUserData();
         }),
         catchError((error) => {
-          console.error('Error editing user', error);
+          let errorMessage = 'An error occurred!';
+          if (error.error && error.error.error) {
+            errorMessage = error.error.error;
+          }
+          this.snackbarService.openSnackBar(errorMessage);
           this.loadUserData();
           return [];
         })
