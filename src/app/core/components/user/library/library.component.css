@@ -109,7 +109,7 @@ button {
 }
 mat-card-subtitle {
   font-size: large;
-  color: white;
+  color: rgba(20, 20, 20, 0.625);
 }
 mat-card-content {
   display: flex;

@@ -52,7 +52,7 @@ mat-dialog-content {
   flex-direction: column;
 }
 mat-card {
-  color: white;
+  color: black;
   padding: 2px 2px;
   margin: 10px 0px;
 }

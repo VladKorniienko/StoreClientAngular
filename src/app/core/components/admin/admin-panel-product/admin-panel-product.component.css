@@ -6,6 +6,9 @@ table {
   overflow: hidden; /* Prevents overflow outside the rounded corners */
 }
 mat-paginator {
+  border-style: solid;
+  border-color: rgba(20, 20, 20, 0.625);
+  border-width: 1px;
   margin-top: 10px;
   width: 100%;
   border-collapse: separate; /* Ensures borders are treated separately, allowing border-radius */
