@@ -1,27 +1,31 @@
+const API_BASE = 'https://storeapp.azurewebsites.net/api';
+
 export const API_ENDPOINTS = {
-    //Account endpoints:
-    login: 'https://localhost:7084/api/Account/login',
-    register: 'https://localhost:7084/api/Account/register',
-    refresh: 'https://localhost:7084/api/Account/refresh',
-    changePassword: 'https://localhost:7084/api/Account/changePassword',
-    makeAdmin: (userId: string) => `https://localhost:7084/api/Account/${userId}/makeAdmin`,
-    revokeAdmin: (userId: string) => `https://localhost:7084/api/Account/${userId}/revokeAdmin`,
-    logout: 'https://localhost:7084/api/Account/logout',
-    
-    //Categories endpoints:
-    categories: 'https://localhost:7084/api/Categories',
-    categoriesWithId: (categoryId: string) => `https://localhost:7084/api/Categories/${categoryId}`,
+  //Account endpoints:
+  login: API_BASE + '/Account/login',
+  register: API_BASE + '/Account/register',
+  refresh: API_BASE + '/Account/refresh',
+  changePassword: API_BASE + '/Account/changePassword',
+  makeAdmin: (userId: string) => API_BASE + `/Account/${userId}/makeAdmin`,
+  revokeAdmin: (userId: string) => API_BASE + `/Account/${userId}/revokeAdmin`,
+  logout: API_BASE + '/Account/logout',
 
-    //Genres endpoints:
-    genres: 'https://localhost:7084/api/Genres',
-    genresWithId: (genreId: string) => `https://localhost:7084/api/Genres/${genreId}`,
+  //Categories endpoints:
+  categories: API_BASE + '/Categories',
+  categoriesWithId: (categoryId: string) =>
+    API_BASE + `/Categories/${categoryId}`,
 
-    //Products endpoints:
-    products: 'https://localhost:7084/api/Products',
-    productsWithId: (productId: string) => `https://localhost:7084/api/Products/${productId}`,
+  //Genres endpoints:
+  genres: API_BASE + '/Genres',
+  genresWithId: (genreId: string) => API_BASE + `/Genres/${genreId}`,
 
-    //Users endpoints:
-    users: 'https://localhost:7084/api/Users',
-    usersWithId: (userId: string) => `https://localhost:7084/api/Users/${userId}`,
-    buyProductWithId: (userId: string, productId: string) => `https://localhost:7084/api/Users/${userId}/${productId}`
-  };
+  //Products endpoints:
+  products: API_BASE + '/Products',
+  productsWithId: (productId: string) => API_BASE + `/Products/${productId}`,
+
+  //Users endpoints:
+  users: API_BASE + 'api/Users',
+  usersWithId: (userId: string) => API_BASE + `/Users/${userId}`,
+  buyProductWithId: (userId: string, productId: string) =>
+    API_BASE + `/Users/${userId}/${productId}`,
+};
