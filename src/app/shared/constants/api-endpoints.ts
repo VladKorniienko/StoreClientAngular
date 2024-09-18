@@ -24,7 +24,7 @@ export const API_ENDPOINTS = {
   productsWithId: (productId: string) => API_BASE + `/Products/${productId}`,
 
   //Users endpoints:
-  users: API_BASE + 'api/Users',
+  users: API_BASE + '/Users',
   usersWithId: (userId: string) => API_BASE + `/Users/${userId}`,
   buyProductWithId: (userId: string, productId: string) =>
     API_BASE + `/Users/${userId}/${productId}`,
