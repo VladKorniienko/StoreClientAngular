@@ -48,6 +48,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          
+      - name: List files in dist/store-app-project
+        run: |
+          ls -R dist/store-app-project
       
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
