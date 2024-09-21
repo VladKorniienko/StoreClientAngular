@@ -25,12 +25,16 @@ jobs:
         run: |
           npm install
           npm run build --if-present
+          
+      - name: List files in the dist directory
+        run: |
+          ls -R dist
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: dist/
+          path: dist/node-app
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,5 +55,5 @@ jobs:
         with:
           app-name: 'storeAppFront'
           slot-name: 'Production'
-          package: dist
+          package: dist/node-app
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5A541B5E9F404446BDE538EF789C4160 }}
